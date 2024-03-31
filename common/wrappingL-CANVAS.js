@@ -41,15 +41,8 @@ function farbleCanvasDataBrave(rowIterator, width) {
 	// PRNG function needs to depend on the original canvas, so that the same
 	// image is farbled the same way but different images are farbled differently
 	// See https://pagure.io/JShelter/webextension/issue/23
-	console.debug(); /* Intentionally one the same line */let start_time = Date.now();
-	let crc = new CRC16();
-	console.debug("Timing farbleCanvasDataBrave CRC init", Date.now() - start_time);
-	for (row of rowIterator()) {
-		crc.next(row);
-	}
-	console.debug("Timing farbleCanvasDataBrave CRC computed", Date.now() - start_time);
-	var thiscanvas_prng = alea(domainHash, "CanvasFarbling", crc.crc);
-	console.debug("Timing farbleCanvasDataBrave PRNG init", Date.now() - start_time);
+	var thiscanvas_prng = alea(Date.now());
+
 	var data_count = width * 4;
 
 	for (row of rowIterator()) {
@@ -66,5 +59,4 @@ function farbleCanvasDataBrave(rowIterator, width) {
 			}
 		}
 	}
-	console.debug("Timing farbleCanvasDataBrave Farbled", Date.now() - start_time);
 }
