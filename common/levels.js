@@ -777,6 +777,9 @@ const L2 = "2";
 const L3 = "3";
 const L_EXPERIMENTAL = "Experiment"; // Use a long ID so that it is not in conflict with pre0.7 user-defined levels
 
+// levels for canvas fingerprinting protection
+const L_CANVAS_DEFAULT = "CanvasDefault";
+
 /// Built-in levels
 var level_0 = {
 	"builtin": true,
@@ -888,6 +891,16 @@ var level_experimental = {
 	"nfc": 1,
 };
 
+// levels for canvas fingerprinting protection
+// JShelter's method
+var level_canvas_default = {
+	"builtin": true,
+	"level_id": L_CANVAS_DEFAULT,
+	"level_text": "Canvas protection default",
+	"level_description": "Farble the Canvas API readings the JShelter's way (Brave)",
+	"htmlcanvaselement": 1,
+};
+
 var modify_builtin_levels = modify_builtin_levels || (() => null); // Give other scripts the possibility to modify builtin levels
 modify_builtin_levels();
 
@@ -900,9 +913,10 @@ function init_levels() {
 		[level_1.level_id]: level_1,
 		[level_2.level_id]: level_2,
 		[level_3.level_id]: level_3,
-		[level_experimental.level_id]: level_experimental
+		[level_experimental.level_id]: level_experimental,
+		[level_canvas_default.level_id]: level_canvas_default,
 	};
-	default_level = Object.create(levels[L2]);
+	default_level = Object.create(levels[L_CANVAS_DEFAULT]);
 	default_level.level_text = "Default";
 	domains = {};
 }
@@ -923,8 +937,8 @@ function updateLevels(res) {
 	}
 	var new_default_level = res["__default__"];
 	if (new_default_level === undefined || new_default_level === null || !(new_default_level in levels)) {
-		default_level = Object.assign({}, levels[L2]);
-		setDefaultLevel(L2);
+		default_level = Object.assign({}, levels[L_CANVAS_DEFAULT]);
+		setDefaultLevel(L_CANVAS_DEFAULT);
 	}
 	else {
 		default_level = Object.assign({}, levels[new_default_level]);

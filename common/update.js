@@ -362,7 +362,7 @@ async function installUpdate() {
 					behavior: 1
 				};
 			}
-			item.fpDetectionOn = true;
+			item.fpDetectionOn = false;
 			item.nbsWhitelist = item.whitelistedHosts ? item.whitelistedHosts : {};
 			delete item.whitelistedHosts;
 			item.nbsSettings = {
@@ -516,7 +516,7 @@ async function checkAndSaveConfig(conf, check_default = true) {
 		}
 	}
 	checkExistAndType("version", "number", 2.1);
-	checkExistAndType("requestShieldOn", "boolean", true);
+	checkExistAndType("requestShieldOn", "boolean", false);
 	checkExistAndType("fpDetectionOn", "boolean", false);
 	checkExistAndType("custom_levels", "object", {});
 	if (!("__default__" in conf) || typeof(conf.__default__) !== "string" ||
