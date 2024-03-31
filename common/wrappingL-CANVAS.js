@@ -60,3 +60,27 @@ function farbleCanvasDataBrave(rowIterator, width) {
 		}
 	}
 }
+
+function farbleCanvasDataBrave2(rowIterator, width) {
+	// PRNG function needs to depend on the original canvas, so that the same
+	// image is farbled the same way but different images are farbled differently
+	// See https://pagure.io/JShelter/webextension/issue/23
+	var thiscanvas_prng = alea(Date.now());
+
+	var data_count = width * 4;
+
+	for (row of rowIterator()) {
+		for (let i = 0; i < data_count; i++) {
+			if ((i % 4) === 3) {
+				// Do not modify alpha
+				continue;
+			}
+			if (thiscanvas_prng.get_bits(1)) { // Modify data with probability of 0.5
+				// Possible improvements:
+				// Copy a neighbor pixel (possibly with modifications
+				// Make bigger canges than xoring with 1
+				row[i] = 0;
+			}
+		}
+	}
+}

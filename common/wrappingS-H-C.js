@@ -134,14 +134,14 @@
 				original_name: "CanvasRenderingContext2D.prototype.getImageData",
 				wrapped_name: "origGetImageData",
 			}],
-			helping_code: helping_code + farbleCanvasDataBrave.toString() + `
+			helping_code: helping_code + farbleCanvasDataBrave.toString() + farbleCanvasDataBrave2.toString() + `
 				var farble = function(context, fake) {
 					if(approach === 1){
 						fake.fillStyle = "white";
 						fake.fillRect(0, 0, context.canvas.width, context.canvas.height);
 						return;
 					}
-					else if(approach === 0){
+					else if(approach === 0 || approach > 1){
 						const width = context.canvas.width;
 						const height = context.canvas.height;
 						const imageData = origGetImageData.call(context, 0, 0, width, height);
@@ -175,14 +175,25 @@
 						
 						function farblePixelsJS() {
 							const BYTES_PER_ROW = width * 4;
-							farbleCanvasDataBrave(function*() {
-								let data = imageData.data;
-								let offset = 0;
-								while (offset < len) {
-									yield data.subarray(offset, offset + BYTES_PER_ROW);
-									offset += BYTES_PER_ROW;
-								}
-							}, width);
+							if (approach === 0) {
+								farbleCanvasDataBrave(function*() {
+									let data = imageData.data;
+									let offset = 0;
+									while (offset < len) {
+										yield data.subarray(offset, offset + BYTES_PER_ROW);
+										offset += BYTES_PER_ROW;
+									}
+								}, width);
+							} else if (approach === 2) {
+								farbleCanvasDataBrave2(function*() {
+									let data = imageData.data;
+									let offset = 0;
+									while (offset < len) {
+										yield data.subarray(offset, offset + BYTES_PER_ROW);
+										offset += BYTES_PER_ROW;
+									}
+								}, width);
+							}
 						}
 					}
 				};`,

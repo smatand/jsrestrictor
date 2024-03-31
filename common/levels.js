@@ -107,6 +107,11 @@ var wrapping_groups = {
 					description: browser.i18n.getMessage("jssgroupLocallyRenderedImagesStrictDescription"),
 					config: [1],
 				},
+				{
+					short: "Little Lies - method B",
+					description: "Use method B to protect against canvas fingerprinting.",
+					config: [2],
+				},
 			],
 			wrappers: [
 				// H-C
@@ -779,6 +784,7 @@ const L_EXPERIMENTAL = "Experiment"; // Use a long ID so that it is not in confl
 
 // levels for canvas fingerprinting protection
 const L_CANVAS_DEFAULT = "CanvasDefault";
+const L_CANVAS_B = "CanvasMethodB";
 
 /// Built-in levels
 var level_0 = {
@@ -901,6 +907,16 @@ var level_canvas_default = {
 	"htmlcanvaselement": 1,
 };
 
+// Method B
+var level_canvas_b = {
+	"builtin": true,
+	"level_id": L_CANVAS_B,
+	"level_text": "Canvas protection method B",
+	"level_description": "Farble the Canvas API readings the Method B way",
+	"htmlcanvaselement": 3,
+};
+
+
 var modify_builtin_levels = modify_builtin_levels || (() => null); // Give other scripts the possibility to modify builtin levels
 modify_builtin_levels();
 
@@ -915,6 +931,7 @@ function init_levels() {
 		[level_3.level_id]: level_3,
 		[level_experimental.level_id]: level_experimental,
 		[level_canvas_default.level_id]: level_canvas_default,
+		[level_canvas_b.level_id]: level_canvas_b,
 	};
 	default_level = Object.create(levels[L_CANVAS_DEFAULT]);
 	default_level.level_text = "Default";
