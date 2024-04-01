@@ -135,8 +135,9 @@
 				wrapped_name: "origGetImageData",
 			}],
 			helping_code: helping_code + farbleCanvasDataBrave.toString() + 
-				farbleCanvasDataBravePriVaricatorA.toString() + 
-				farbleCanvasDataBravePriVaricatorB.toString() + `
+				farbleCanvasDataPriVaricatorA.toString() + 
+				farbleCanvasDataPriVaricatorB.toString() + 
+				farbleCanvasDataFPRandom.toString() + `
 				var farble = function(context, fake) {
 					if(approach === 1){
 						fake.fillStyle = "white";
@@ -188,7 +189,17 @@
 								}, width);
 							} else if (approach === 2) {
 								console.debug("Farbling with PriVaricator's method A");
-								farbleCanvasDataBravePriVaricatorA(function*() {
+								farbleCanvasDataPriVaricatorA(function*() {
+									let data = imageData.data;
+									let offset = 0;
+									while (offset < len) {
+										yield data.subarray(offset, offset + BYTES_PER_ROW);
+										offset += BYTES_PER_ROW;
+									}
+								}, width);
+							} else if (approach === 3) {
+								console.debug("Farbling with PriVaricator's method B");
+								farbleCanvasDataPriVaricatorB(function*() {
 									let data = imageData.data;
 									let offset = 0;
 									while (offset < len) {
@@ -197,8 +208,8 @@
 									}
 								}, width);
 							} else {
-								console.debug("Farbling with PriVaricator's method B");
-								farbleCanvasDataBravePriVaricatorB(function*() {
+								console.debug("Farbling with FPRandom's method");
+								farbleCanvasDataFPRandom(function*() {
 									let data = imageData.data;
 									let offset = 0;
 									while (offset < len) {

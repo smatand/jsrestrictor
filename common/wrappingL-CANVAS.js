@@ -66,7 +66,7 @@ function farbleCanvasDataBrave(rowIterator, width) {
  * as the PriVaricator's implementation is not available, we implement it on our own
  * and name it as method A
  */
-function farbleCanvasDataBravePriVaricatorA(rowIterator, width) {
+function farbleCanvasDataPriVaricatorA(rowIterator, width) {
 	// here the session hash should be seeded, but for simulating the behavior of reopening the browser, we use Date.now()
 	const thiscanvas_prng = alea(Date.now());
 
@@ -91,7 +91,7 @@ function farbleCanvasDataBravePriVaricatorA(rowIterator, width) {
  * as the PriVaricator's implementation is not available, we implement it on our own
  * and name it as method B, which compared to method A, modifies alpha channel too (with 1/4 probability)
  */
-function farbleCanvasDataBravePriVaricatorB(rowIterator, width) {
+function farbleCanvasDataPriVaricatorB(rowIterator, width) {
 	// here the session hash should be seeded, but for simulating the behavior of reopening the browser, we use Date.now()
 	const thiscanvas_prng = alea(Date.now());
 
@@ -107,6 +107,51 @@ function farbleCanvasDataBravePriVaricatorB(rowIterator, width) {
 
 				row[i + i_rgb] ^= 1;
 			}
+		}
+	}
+}
+
+/**Farble image data, inspired by FPRandom 
+ * 
+ * https://github.com/plaperdr/fprandom
+ * 
+ * Important note: as the original implementation is in C++, we cannot use it directly using JShelter,
+ * 				   thus we try to implement the algorithm on our own with JS
+ */
+function farbleCanvasDataFPRandom(rowIterator, width) {
+	let MIN_HEX_CODE = 0;
+	let MAX_HEX_CODE = 255;
+	let randomR, randomG, randomB;
+
+	function getRandomRGB() {
+		const randomNum = alea(Date.now());
+
+		randomR = ~~(randomNum() * 7);
+		randomG = ~~(randomNum() * 7);
+		randomB = ~~(randomNum() * 7);
+	}
+
+	function getModifiedColor(color, randomNum) {
+		let newColor = color - 3 + randomNum;
+		if (MIN_HEX_CODE > newColor) {
+			newColor = 0;
+		}
+		if (newColor > MAX_HEX_CODE) {
+			newColor = 255;
+		}
+
+		return newColor;
+	}
+
+	const dataCount = width * 4;
+	getRandomRGB(); // initialize random RGB values
+
+	for (row of rowIterator()) {
+		for (let i = 0; i < dataCount; i += 4) {
+			row[i] = getModifiedColor(row[i], randomR); // R
+			row[i + 1] = getModifiedColor(row[i + 1], randomG); // G
+			row[i + 2] = getModifiedColor(row[i + 2], randomB); // B
+			// A is not modified
 		}
 	}
 }

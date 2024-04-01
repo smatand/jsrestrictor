@@ -117,6 +117,11 @@ var wrapping_groups = {
 					description: "Use PriVaricator's method B to protect against Canvas fingerprinting.",
 					config: [3],
 				},
+				{
+					short: "FPRandom",
+					description: "FPRandom's method to protect against Canvas fingerprinting",
+					config: [4],
+				},
 			],
 			wrappers: [
 				// H-C
@@ -791,6 +796,7 @@ const L_EXPERIMENTAL = "Experiment"; // Use a long ID so that it is not in confl
 const L_CANVAS_DEFAULT = "CanvasDefault";
 const L_CANVAS_A = "CanvasMethodA";
 const L_CANVAS_B = "CanvasMethodB";
+const L_CANVAS_FPRANDOM = "CanvasFPRandom";
 
 /// Built-in levels
 var level_0 = {
@@ -931,6 +937,15 @@ var level_canvas_b = {
 	"htmlcanvaselement": 4,
 };
 
+// FPRandom
+var level_canvas_fprandom = {
+	"builtin": true,
+	"level_id": L_CANVAS_FPRANDOM,
+	"level_text": "Canvas protection - FPRandom",
+	"level_description": "Farble the Canvas API readings by modifying each RGB channel of every pixel",
+	"htmlcanvaselement": 5,
+}
+
 
 var modify_builtin_levels = modify_builtin_levels || (() => null); // Give other scripts the possibility to modify builtin levels
 modify_builtin_levels();
@@ -948,6 +963,7 @@ function init_levels() {
 		[level_canvas_default.level_id]: level_canvas_default,
 		[level_canvas_a.level_id]: level_canvas_a,
 		[level_canvas_b.level_id]: level_canvas_b,
+		[level_canvas_fprandom.level_id]: level_canvas_fprandom,
 	};
 	default_level = Object.create(levels[L_CANVAS_DEFAULT]);
 	default_level.level_text = "Default";
