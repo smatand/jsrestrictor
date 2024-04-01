@@ -134,7 +134,9 @@
 				original_name: "CanvasRenderingContext2D.prototype.getImageData",
 				wrapped_name: "origGetImageData",
 			}],
-			helping_code: helping_code + farbleCanvasDataBrave.toString() + farbleCanvasDataBravePriVaricatorA.toString() + `
+			helping_code: helping_code + farbleCanvasDataBrave.toString() + 
+				farbleCanvasDataBravePriVaricatorA.toString() + 
+				farbleCanvasDataBravePriVaricatorB.toString() + `
 				var farble = function(context, fake) {
 					if(approach === 1){
 						fake.fillStyle = "white";
@@ -185,7 +187,7 @@
 									}
 								}, width);
 							} else if (approach === 2) {
-								console.debug("Farbling with methodB");
+								console.debug("Farbling with PriVaricator's method A");
 								farbleCanvasDataBravePriVaricatorA(function*() {
 									let data = imageData.data;
 									let offset = 0;
@@ -194,7 +196,17 @@
 										offset += BYTES_PER_ROW;
 									}
 								}, width);
-							} 
+							} else {
+								console.debug("Farbling with PriVaricator's method B");
+								farbleCanvasDataBravePriVaricatorB(function*() {
+									let data = imageData.data;
+									let offset = 0;
+									while (offset < len) {
+										yield data.subarray(offset, offset + BYTES_PER_ROW);
+										offset += BYTES_PER_ROW;
+									}
+								}, width);
+							}
 						}
 					}
 				};`,

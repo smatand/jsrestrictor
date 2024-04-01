@@ -78,7 +78,32 @@ function farbleCanvasDataBravePriVaricatorA(rowIterator, width) {
 			if (thiscanvas_prng() <= 0.05) { // Modify data with probability of 0.05
 				// choose either of the channels by newly generated random number
 				// [0, 1, 2] for RGB, A is not modified
-				const i_rgb = Math.floor(thiscanvas_prng() * 3);
+				const i_rgb = ~~(thiscanvas_prng() * 3);
+
+				row[i + i_rgb] ^= 1;
+			}
+		}
+	}
+}
+
+/**Farble image data, inspired by PriVaricator's adding 5% noise
+ * 
+ * as the PriVaricator's implementation is not available, we implement it on our own
+ * and name it as method B, which compared to method A, modifies alpha channel too (with 1/4 probability)
+ */
+function farbleCanvasDataBravePriVaricatorB(rowIterator, width) {
+	// here the session hash should be seeded, but for simulating the behavior of reopening the browser, we use Date.now()
+	const thiscanvas_prng = alea(Date.now());
+
+	const data_count = width * 4;
+
+	for (row of rowIterator()) {
+		// iterate through pixels, not each channel of each pixel
+		for (let i = 0; i < data_count; i += 4) {
+			if (thiscanvas_prng() <= 0.05) { // Modify data with probability of 0.05
+				// choose either of the channels by newly generated random number
+				// [0, 1, 2, 3] for RGB, A is not modified
+				const i_rgb = ~~(thiscanvas_prng() * 4);
 
 				row[i + i_rgb] ^= 1;
 			}

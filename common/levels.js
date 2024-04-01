@@ -109,8 +109,13 @@ var wrapping_groups = {
 				},
 				{
 					short: "5% noise - method A",
-					description: "Use method B to protect against canvas fingerprinting.",
+					description: "Use PriVaricator's method A to protect against Canvas fingerprinting.",
 					config: [2],
+				},
+				{
+					short: "5% noise - method B",
+					description: "Use PriVaricator's method B to protect against Canvas fingerprinting.",
+					config: [3],
 				},
 			],
 			wrappers: [
@@ -784,7 +789,8 @@ const L_EXPERIMENTAL = "Experiment"; // Use a long ID so that it is not in confl
 
 // levels for canvas fingerprinting protection
 const L_CANVAS_DEFAULT = "CanvasDefault";
-const L_CANVAS_A = "CanvasMethodB";
+const L_CANVAS_A = "CanvasMethodA";
+const L_CANVAS_B = "CanvasMethodB";
 
 /// Built-in levels
 var level_0 = {
@@ -907,13 +913,22 @@ var level_canvas_default = {
 	"htmlcanvaselement": 1,
 };
 
-// Method B
+// Method A
 var level_canvas_a = {
 	"builtin": true,
 	"level_id": L_CANVAS_A,
 	"level_text": "Canvas protection - 5% noise - A",
 	"level_description": "Farble the Canvas API readings by adding the 5% noise - method A (PriVaricator)",
 	"htmlcanvaselement": 3,
+};
+
+// Method B
+var level_canvas_b = {
+	"builtin": true,
+	"level_id": L_CANVAS_B,
+	"level_text": "Canvas protection - 5% noise - B",
+	"level_description": "Farble the Canvas API readings by adding the 5% noise - method B (PriVaricator)",
+	"htmlcanvaselement": 4,
 };
 
 
@@ -932,6 +947,7 @@ function init_levels() {
 		[level_experimental.level_id]: level_experimental,
 		[level_canvas_default.level_id]: level_canvas_default,
 		[level_canvas_a.level_id]: level_canvas_a,
+		[level_canvas_b.level_id]: level_canvas_b,
 	};
 	default_level = Object.create(levels[L_CANVAS_DEFAULT]);
 	default_level.level_text = "Default";
