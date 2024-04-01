@@ -118,9 +118,14 @@ var wrapping_groups = {
 					config: [3],
 				},
 				{
-					short: "FPRandom",
-					description: "FPRandom's method to protect against Canvas fingerprinting",
+					short: "FPRandom off",
+					description: "FPRandom's method to protect against Canvas fingerprinting. RandomMode is off",
 					config: [4],
+				},
+				{
+					short: "FPRandom on",
+					description: "FPRandom's method to protect against Canvas fingerprinting, RnadomMode is on",
+					config: [5],
 				},
 			],
 			wrappers: [
@@ -796,7 +801,8 @@ const L_EXPERIMENTAL = "Experiment"; // Use a long ID so that it is not in confl
 const L_CANVAS_DEFAULT = "CanvasDefault";
 const L_CANVAS_A = "CanvasMethodA";
 const L_CANVAS_B = "CanvasMethodB";
-const L_CANVAS_FPRANDOM = "CanvasFPRandom";
+const L_CANVAS_FPRANDOM_OFF = "CanvasFPRandomOff";
+const L_CANVAS_FPRANDOM_ON = "CanvasFPRandomOn"
 
 /// Built-in levels
 var level_0 = {
@@ -938,14 +944,22 @@ var level_canvas_b = {
 };
 
 // FPRandom
-var level_canvas_fprandom = {
+var level_canvas_fprandom_off = {
 	"builtin": true,
-	"level_id": L_CANVAS_FPRANDOM,
-	"level_text": "Canvas protection - FPRandom",
+	"level_id": L_CANVAS_FPRANDOM_OFF,
+	"level_text": "Canvas protection - FPRandom off",
 	"level_description": "Farble the Canvas API readings by modifying each RGB channel of every pixel",
 	"htmlcanvaselement": 5,
 }
 
+// FPRandom with random mode ON
+var level_canvas_fprandom_on = {
+	"builtin": true,
+	"level_id": L_CANVAS_FPRANDOM_ON,
+	"level_text": "Canvas protection - FPRandom on",
+	"level_description": "Farble the Canvas API readings by modifying each RGB channel of every pixel, each time reinitializing the random values",
+	"htmlcanvaselement": 6,
+}
 
 var modify_builtin_levels = modify_builtin_levels || (() => null); // Give other scripts the possibility to modify builtin levels
 modify_builtin_levels();
@@ -963,7 +977,8 @@ function init_levels() {
 		[level_canvas_default.level_id]: level_canvas_default,
 		[level_canvas_a.level_id]: level_canvas_a,
 		[level_canvas_b.level_id]: level_canvas_b,
-		[level_canvas_fprandom.level_id]: level_canvas_fprandom,
+		[level_canvas_fprandom_off.level_id]: level_canvas_fprandom_off,
+		[level_canvas_fprandom_on.level_id]: level_canvas_fprandom_on
 	};
 	default_level = Object.create(levels[L_CANVAS_DEFAULT]);
 	default_level.level_text = "Default";

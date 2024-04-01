@@ -216,7 +216,7 @@
 										yield data.subarray(offset, offset + BYTES_PER_ROW);
 										offset += BYTES_PER_ROW;
 									}
-								}, width);
+								}, width, (approach === 5) ? true : false);
 							}
 						}
 					}

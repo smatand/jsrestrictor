@@ -118,7 +118,7 @@ function farbleCanvasDataPriVaricatorB(rowIterator, width) {
  * Important note: as the original implementation is in C++, we cannot use it directly using JShelter,
  * 				   thus we try to implement the algorithm on our own with JS
  */
-function farbleCanvasDataFPRandom(rowIterator, width) {
+function farbleCanvasDataFPRandom(rowIterator, width, randomMode) {
 	let MIN_HEX_CODE = 0;
 	let MAX_HEX_CODE = 255;
 	let randomR, randomG, randomB;
@@ -148,6 +148,11 @@ function farbleCanvasDataFPRandom(rowIterator, width) {
 
 	for (row of rowIterator()) {
 		for (let i = 0; i < dataCount; i += 4) {
+			if (randomMode) {
+				// in FPRandom, if random mode is selected, it is supposed to reinitialize values each iteration 	
+				getRandomRGB();
+			}
+
 			row[i] = getModifiedColor(row[i], randomR); // R
 			row[i + 1] = getModifiedColor(row[i + 1], randomG); // G
 			row[i + 2] = getModifiedColor(row[i + 2], randomB); // B
