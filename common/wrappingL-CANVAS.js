@@ -61,25 +61,26 @@ function farbleCanvasDataBrave(rowIterator, width) {
 	}
 }
 
-function farbleCanvasDataBrave2(rowIterator, width) {
-	// PRNG function needs to depend on the original canvas, so that the same
-	// image is farbled the same way but different images are farbled differently
-	// See https://pagure.io/JShelter/webextension/issue/23
-	var thiscanvas_prng = alea(Date.now());
+/**Farble image data, inspired by PriVaricator's adding 5% noise
+ * 
+ * as the PriVaricator's implementation is not available, we implement it on our own
+ * and name it as method A
+ */
+function farbleCanvasDataBravePriVaricatorA(rowIterator, width) {
+	// here the session hash should be seeded, but for simulating the behavior of reopening the browser, we use Date.now()
+	const thiscanvas_prng = alea(Date.now());
 
-	var data_count = width * 4;
+	const data_count = width * 4;
 
 	for (row of rowIterator()) {
-		for (let i = 0; i < data_count; i++) {
-			if ((i % 4) === 3) {
-				// Do not modify alpha
-				continue;
-			}
-			if (thiscanvas_prng.get_bits(1)) { // Modify data with probability of 0.5
-				// Possible improvements:
-				// Copy a neighbor pixel (possibly with modifications
-				// Make bigger canges than xoring with 1
-				row[i] = 0;
+		// iterate through pixels, not each channel of each pixel
+		for (let i = 0; i < data_count; i += 4) {
+			if (thiscanvas_prng() <= 0.05) { // Modify data with probability of 0.05
+				// choose either of the channels by newly generated random number
+				// [0, 1, 2] for RGB, A is not modified
+				const i_rgb = Math.floor(thiscanvas_prng() * 3);
+
+				row[i + i_rgb] ^= 1;
 			}
 		}
 	}

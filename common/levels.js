@@ -108,7 +108,7 @@ var wrapping_groups = {
 					config: [1],
 				},
 				{
-					short: "Little Lies - method B",
+					short: "5% noise - method A",
 					description: "Use method B to protect against canvas fingerprinting.",
 					config: [2],
 				},
@@ -784,7 +784,7 @@ const L_EXPERIMENTAL = "Experiment"; // Use a long ID so that it is not in confl
 
 // levels for canvas fingerprinting protection
 const L_CANVAS_DEFAULT = "CanvasDefault";
-const L_CANVAS_B = "CanvasMethodB";
+const L_CANVAS_A = "CanvasMethodB";
 
 /// Built-in levels
 var level_0 = {
@@ -908,11 +908,11 @@ var level_canvas_default = {
 };
 
 // Method B
-var level_canvas_b = {
+var level_canvas_a = {
 	"builtin": true,
-	"level_id": L_CANVAS_B,
-	"level_text": "Canvas protection method B",
-	"level_description": "Farble the Canvas API readings the Method B way",
+	"level_id": L_CANVAS_A,
+	"level_text": "Canvas protection - 5% noise - A",
+	"level_description": "Farble the Canvas API readings by adding the 5% noise - method A (PriVaricator)",
 	"htmlcanvaselement": 3,
 };
 
@@ -931,7 +931,7 @@ function init_levels() {
 		[level_3.level_id]: level_3,
 		[level_experimental.level_id]: level_experimental,
 		[level_canvas_default.level_id]: level_canvas_default,
-		[level_canvas_b.level_id]: level_canvas_b,
+		[level_canvas_a.level_id]: level_canvas_a,
 	};
 	default_level = Object.create(levels[L_CANVAS_DEFAULT]);
 	default_level.level_text = "Default";
