@@ -37,28 +37,22 @@
  * \param height Height of the original canvas.
  * \param width Width of the original canvas.
  */
-function farbleCanvasDataBrave(rowIterator, width) {
-	// PRNG function needs to depend on the original canvas, so that the same
-	// image is farbled the same way but different images are farbled differently
-	// See https://pagure.io/JShelter/webextension/issue/23
-	var thiscanvas_prng = alea(Date.now());
+function farbleCanvasDataBrave(imageData) {
+	console.debug('Called farbleCanvasDataBrave()');
 
-	var data_count = width * 4;
+	let data = imageData.data;
+    let len = data.length;
 
-	for (row of rowIterator()) {
-		for (let i = 0; i < data_count; i++) {
-			if ((i % 4) === 3) {
-				// Do not modify alpha
-				continue;
-			}
-			if (thiscanvas_prng.get_bits(1)) { // Modify data with probability of 0.5
-				// Possible improvements:
-				// Copy a neighbor pixel (possibly with modifications
-				// Make bigger canges than xoring with 1
-				row[i] ^= 1;
-			}
+	for (let i = 0; i < len; i++) {
+		// if alpha, do not modify
+		if (i % 4 === 3) {
+			continue;
 		}
-	}
+
+		if (Math.random() < 0.5) {
+            data[i] ^= 1;
+        }
+	} // end of for loop
 }
 
 /**Farble image data, inspired by PriVaricator's adding 5% noise
@@ -66,24 +60,21 @@ function farbleCanvasDataBrave(rowIterator, width) {
  * as the PriVaricator's implementation is not available, we implement it on our own
  * and name it as method A
  */
-function farbleCanvasDataPriVaricatorA(rowIterator, width) {
-	// here the session hash should be seeded, but for simulating the behavior of reopening the browser, we use Date.now()
-	const thiscanvas_prng = alea(Date.now());
+function farbleCanvasDataPriVaricatorA(imageData) {
+	console.debug('Called farbleCanvasDataPriVaricatorA()');
 
-	const data_count = width * 4;
+	let data = imageData.data;
+	let len = data.length;
 
-	for (row of rowIterator()) {
-		// iterate through pixels, not each channel of each pixel
-		for (let i = 0; i < data_count; i += 4) {
-			if (thiscanvas_prng() <= 0.05) { // Modify data with probability of 0.05
-				// choose either of the channels by newly generated random number
-				// [0, 1, 2] for RGB, A is not modified
-				const i_rgb = ~~(thiscanvas_prng() * 3);
+	for (let i = 0; i < len; i += 4) {
+		if (Math.random() <= 0.05) {
+			// choose either of the channels by newly generated random number
+			// [0, 1, 2] for RGB, A is not modified
+			const i_rgb = ~~(Math.random() * 3);
 
-				row[i + i_rgb] ^= 1;
-			}
+			data[i + i_rgb] ^= 1;
 		}
-	}
+	} // end of for loop
 }
 
 /**Farble image data, inspired by PriVaricator's adding 5% noise
@@ -91,24 +82,21 @@ function farbleCanvasDataPriVaricatorA(rowIterator, width) {
  * as the PriVaricator's implementation is not available, we implement it on our own
  * and name it as method B, which compared to method A, modifies alpha channel too (with 1/4 probability)
  */
-function farbleCanvasDataPriVaricatorB(rowIterator, width) {
-	// here the session hash should be seeded, but for simulating the behavior of reopening the browser, we use Date.now()
-	const thiscanvas_prng = alea(Date.now());
+function farbleCanvasDataPriVaricatorB(imageData) {
+	console.debug('Called farbleCanvasDataPriVaricatorB()');
 
-	const data_count = width * 4;
+	let data = imageData.data;
+	let len = data.length;
 
-	for (row of rowIterator()) {
-		// iterate through pixels, not each channel of each pixel
-		for (let i = 0; i < data_count; i += 4) {
-			if (thiscanvas_prng() <= 0.05) { // Modify data with probability of 0.05
-				// choose either of the channels by newly generated random number
-				// [0, 1, 2, 3] for RGB, A is not modified
-				const i_rgb = ~~(thiscanvas_prng() * 4);
+	for (let i = 0; i < len; i += 4) {
+		if (Math.random() <= 0.05) {
+			// choose either of the channels by newly generated random number
+			// [0, 1, 2, 3] for RGBA
+			const i_rgb = ~~(Math.random() * 4);
 
-				row[i + i_rgb] ^= 1;
-			}
+			data[i + i_rgb] ^= 1;
 		}
-	}
+	} // end of for loop
 }
 
 /**Farble image data, inspired by FPRandom 
@@ -118,17 +106,23 @@ function farbleCanvasDataPriVaricatorB(rowIterator, width) {
  * Important note: as the original implementation is in C++, we cannot use it directly using JShelter,
  * 				   thus we try to implement the algorithm on our own with JS
  */
-function farbleCanvasDataFPRandom(rowIterator, width, randomMode) {
+function farbleCanvasDataFPRandom(imageData, randomMode) {
+	console.debug(`Called farbleCanvasDataFPRandom() with randomMode: ${randomMode}`);
+
+	let data = imageData.data;
+	let len = data.length;
+
 	let MIN_HEX_CODE = 0;
 	let MAX_HEX_CODE = 255;
 	let randomR, randomG, randomB;
+	let counter = 0;
 
 	function getRandomRGB() {
-		const randomNum = alea(Date.now());
+		const randomNum = Math.random();
 
-		randomR = ~~(randomNum() * 7);
-		randomG = ~~(randomNum() * 7);
-		randomB = ~~(randomNum() * 7);
+		randomR = ~~(randomNum * 7);
+		randomG = ~~(randomNum * 7);
+		randomB = ~~(randomNum * 7);
 	}
 
 	function getModifiedColor(color, randomNum) {
@@ -143,20 +137,83 @@ function farbleCanvasDataFPRandom(rowIterator, width, randomMode) {
 		return newColor;
 	}
 
-	const dataCount = width * 4;
 	getRandomRGB(); // initialize random RGB values
 
-	for (row of rowIterator()) {
-		for (let i = 0; i < dataCount; i += 4) {
-			if (randomMode) {
-				// in FPRandom, if random mode is selected, it is supposed to reinitialize values each iteration 	
-				getRandomRGB();
+	for (let i = 0; i < len; i += 4) {
+		data[i] = getModifiedColor(data[i], randomR); // R
+		data[i + 1] = getModifiedColor(data[i + 1], randomG); // G
+		data[i + 2] = getModifiedColor(data[i + 2], randomB); // B
+
+		if (randomMode) {
+			counter++;
+			// in FPRandom, if random mode is selected, it is supposed to reinitialize values each iteration 	
+			getRandomRGB();
+		}
+	} // end of for loop
+
+	console.debug('getRandomRGB executed ' + counter + ' times.');
+}
+
+/**Shuffles the pixel data on the canvas
+ * 
+ * Uses alea() PRNG function to generate the indexes to be swapped
+ */
+function farbleCanvasDataPixelShuffling(imageData) {
+	console.debug('Called farbleCanvasDataPixelShuffling()');
+
+	let data = imageData.data;
+	let len = data.length;
+
+	for (let i = 0; i < len; i += 4) {
+		const block = data.slice(i, i + 4);
+		for (let j = block.length - 2; j > 0; j--) {
+			if (Math.random() < 0.1) {
+				const k = ~~(Math.random() * (j + 1));
+				const temp = block[j];
+				block[j] = block[k];
+				block[k] = temp;
 			}
 
-			row[i] = getModifiedColor(row[i], randomR); // R
-			row[i + 1] = getModifiedColor(row[i + 1], randomG); // G
-			row[i + 2] = getModifiedColor(row[i + 2], randomB); // B
-			// A is not modified
+			for (let j = 0; j < block.length; j++) {
+				data[i + j] = block[j];
+			}
+		} // end of inner for loop
+	} // end of outer for loop
+}
+
+/**Farbles the canvas by randomly selecting pixels which will be modified, in advance
+ * 
+ * The modification is done by bitwise XOR with 1
+ */
+function farbleCanvasRandomPixels(imageData) {
+	console.debug('Called farbleCanvasRandomPixels()');
+
+	let data = imageData.data;
+	const len = data.length;
+
+	// generate random indexes of data to be modified for 15% of the canvas
+	const lenDataToModify = ~~(len * 0.15);
+
+	if (lenDataToModify === 0) {
+		lenDataToModify = Math.random() * 4; // one of the RGBA channels of a single pixel
+	}
+
+	let pixelsToModifyIndexes = [];
+
+	// generate random indexes of pixels and modify them right at place
+	for (let i = 0; i < lenDataToModify; i++) {
+		let randomIndex = ~~(Math.random() * len);
+
+		// check if the index is already in the array
+		// guaranteeing that at least 0.15 of the canvas will be modified
+		if (pixelsToModifyIndexes.includes(randomIndex)) {
+			i--;
+			continue;
 		}
+
+		pixelsToModifyIndexes.push(randomIndex);
+
+		// modify the selected pixel
+		data[randomIndex] ^= 1;
 	}
 }

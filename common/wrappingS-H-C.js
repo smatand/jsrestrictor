@@ -137,7 +137,9 @@
 			helping_code: helping_code + farbleCanvasDataBrave.toString() + 
 				farbleCanvasDataPriVaricatorA.toString() + 
 				farbleCanvasDataPriVaricatorB.toString() + 
-				farbleCanvasDataFPRandom.toString() + `
+				farbleCanvasDataFPRandom.toString() + 
+				farbleCanvasDataPixelShuffling.toString() +	
+				farbleCanvasRandomPixels.toString() + `
 				var farble = function(context, fake) {
 					if(approach === 1){
 						fake.fillStyle = "white";
@@ -164,6 +166,7 @@
 						// on the page-specified extraction data rectangle.
 						fake.putImageData(imageData, 0, 0);
 						
+						// this is brave's method, activated by last option at global options
 						function farblePixelsWASM() {
 							wasm.set(imageData.data);
 							const crc = wasm.crc16(len);
@@ -177,46 +180,30 @@
 						}
 						
 						function farblePixelsJS() {
-							const BYTES_PER_ROW = width * 4;
-							if (approach === 0) {
-								farbleCanvasDataBrave(function*() {
-									let data = imageData.data;
-									let offset = 0;
-									while (offset < len) {
-										yield data.subarray(offset, offset + BYTES_PER_ROW);
-										offset += BYTES_PER_ROW;
-									}
-								}, width);
-							} else if (approach === 2) {
-								console.debug("Farbling with PriVaricator's method A");
-								farbleCanvasDataPriVaricatorA(function*() {
-									let data = imageData.data;
-									let offset = 0;
-									while (offset < len) {
-										yield data.subarray(offset, offset + BYTES_PER_ROW);
-										offset += BYTES_PER_ROW;
-									}
-								}, width);
-							} else if (approach === 3) {
-								console.debug("Farbling with PriVaricator's method B");
-								farbleCanvasDataPriVaricatorB(function*() {
-									let data = imageData.data;
-									let offset = 0;
-									while (offset < len) {
-										yield data.subarray(offset, offset + BYTES_PER_ROW);
-										offset += BYTES_PER_ROW;
-									}
-								}, width);
-							} else {
-								console.debug("Farbling with FPRandom's method");
-								farbleCanvasDataFPRandom(function*() {
-									let data = imageData.data;
-									let offset = 0;
-									while (offset < len) {
-										yield data.subarray(offset, offset + BYTES_PER_ROW);
-										offset += BYTES_PER_ROW;
-									}
-								}, width, (approach === 5) ? true : false);
+							switch (approach) {
+								case 0:
+									farbleCanvasDataBrave(imageData);
+									break;
+								case 2:
+									farbleCanvasDataPriVaricatorA(imageData);
+									break;
+								case 3:
+									farbleCanvasDataPriVaricatorB(imageData);
+									break;
+								case 4:
+									farbleCanvasDataFPRandom(imageData, false); // randomMode off
+									break;
+								case 5:
+									farbleCanvasDataFPRandom(imageData, true); // randomMode on
+									break;
+								case 6:
+									farbleCanvasDataPixelShuffling(imageData);
+									break;
+								case 7:
+									farbleCanvasRandomPixels(imageData);
+									break;
+								default:
+									console.error("fell to default case in farblePixelsJS switch");
 							}
 						}
 					}

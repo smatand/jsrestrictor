@@ -124,9 +124,19 @@ var wrapping_groups = {
 				},
 				{
 					short: "FPRandom on",
-					description: "FPRandom's method to protect against Canvas fingerprinting, RnadomMode is on",
+					description: "FPRandom's method to protect against Canvas fingerprinting, RandomMode is on",
 					config: [5],
 				},
+				{
+					short: "Pixel shuffle",
+					description: "Pixel shuffle method to protect against Canvas fingerprinting.",
+					config: [6],
+				},
+				{
+					short: "Noise of randomly selected pixels",
+					description: "15% of noise is added to canvas by XOR with 1 of randomly selected ImageData.data elements, should be less algorithmically expensive",
+					config: [7],
+				}
 			],
 			wrappers: [
 				// H-C
@@ -803,6 +813,8 @@ const L_CANVAS_A = "CanvasMethodA";
 const L_CANVAS_B = "CanvasMethodB";
 const L_CANVAS_FPRANDOM_OFF = "CanvasFPRandomOff";
 const L_CANVAS_FPRANDOM_ON = "CanvasFPRandomOn"
+const L_CANVAS_PIXEL_SHUFFLE = "CanvasPixelShuffle";
+const L_CANVAS_NOISE = "CanvasNoise";
 
 /// Built-in levels
 var level_0 = {
@@ -961,6 +973,24 @@ var level_canvas_fprandom_on = {
 	"htmlcanvaselement": 6,
 }
 
+// Pixel shuffling
+var level_canvas_pixel_shuffling = {
+	"builtin": true,
+	"level_id": L_CANVAS_PIXEL_SHUFFLE,
+	"level_text": "Canvas protection - Pixel shuffling",
+	"level_description": "Farble the Canvas API readings by shuffling the RGB channels of every pixel",
+	"htmlcanvaselement": 7,
+}
+
+// Noise by modifying randomly selected ImageData.data
+var level_canvas_noise = {
+	"builtin": true,
+	"level_id": L_CANVAS_NOISE,
+	"level_text": "Canvas protection - Noise",
+	"level_description": "Farble the Canvas API readings by modifying randomly selected ImageData.data",
+	"htmlcanvaselement": 8,
+}
+
 var modify_builtin_levels = modify_builtin_levels || (() => null); // Give other scripts the possibility to modify builtin levels
 modify_builtin_levels();
 
@@ -978,7 +1008,9 @@ function init_levels() {
 		[level_canvas_a.level_id]: level_canvas_a,
 		[level_canvas_b.level_id]: level_canvas_b,
 		[level_canvas_fprandom_off.level_id]: level_canvas_fprandom_off,
-		[level_canvas_fprandom_on.level_id]: level_canvas_fprandom_on
+		[level_canvas_fprandom_on.level_id]: level_canvas_fprandom_on,
+		[level_canvas_pixel_shuffling.level_id]: level_canvas_pixel_shuffling,
+		[level_canvas_noise.level_id]: level_canvas_noise,
 	};
 	default_level = Object.create(levels[L_CANVAS_DEFAULT]);
 	default_level.level_text = "Default";
