@@ -115,7 +115,6 @@ function farbleCanvasDataFPRandom(imageData, randomMode) {
 	let MIN_HEX_CODE = 0;
 	let MAX_HEX_CODE = 255;
 	let randomR, randomG, randomB;
-	let counter = 0;
 
 	function getRandomRGB() {
 		randomR = ~~(Math.random() * 7);
@@ -143,7 +142,6 @@ function farbleCanvasDataFPRandom(imageData, randomMode) {
 		data[i + 2] = getModifiedColor(data[i + 2], randomB); // B
 
 		if (randomMode) {
-			counter++;
 			// in FPRandom, if random mode is selected, it is supposed to reinitialize values each iteration 	
 			getRandomRGB();
 		}
