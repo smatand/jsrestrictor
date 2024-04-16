@@ -118,11 +118,9 @@ function farbleCanvasDataFPRandom(imageData, randomMode) {
 	let counter = 0;
 
 	function getRandomRGB() {
-		const randomNum = Math.random();
-
-		randomR = ~~(randomNum * 7);
-		randomG = ~~(randomNum * 7);
-		randomB = ~~(randomNum * 7);
+		randomR = ~~(Math.random() * 7);
+		randomG = ~~(Math.random() * 7);
+		randomB = ~~(Math.random() * 7);
 	}
 
 	function getModifiedColor(color, randomNum) {
