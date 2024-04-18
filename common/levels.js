@@ -134,7 +134,7 @@ var wrapping_groups = {
 				},
 				{
 					short: "Noise of randomly selected pixels",
-					description: "15% of noise is added to canvas by XOR with 1 of randomly selected ImageData.data elements, should be less algorithmically expensive",
+					description: "15% of noise is added to canvas by XOR with 1 of randomly selected RGBA channels of random pixels",
 					config: [7],
 				}
 			],

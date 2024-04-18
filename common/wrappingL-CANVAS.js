@@ -197,8 +197,9 @@ function farbleCanvasRandomPixels(imageData) {
 	let data = imageData.data;
 	const len = data.length;
 
-	// generate random indexes of data to be modified for 15% of the canvas
-	const lenDataToModify = ~~(len * 0.15);
+	// generate random indexes of data to be modified for 20% of the canvas
+	const len_pixels_rgba = len / 4;
+	let lenDataToModify = ~~(len_pixels_rgba * (0.1 + Math.random() * 0.1));
 
 	if (lenDataToModify === 0) {
 		lenDataToModify = Math.random() * 4; // one of the RGBA channels of a single pixel
@@ -208,10 +209,11 @@ function farbleCanvasRandomPixels(imageData) {
 
 	// generate random indexes of pixels and modify them right at place
 	for (let i = 0; i < lenDataToModify; i++) {
-		let randomIndex = ~~(Math.random() * len);
+		let randomIndex = ~~(Math.random() * len_pixels_rgba);
 
 		// check if the index is already in the array
 		// guaranteeing that at least 0.15 of the canvas will be modified
+		// O(n^2) in worst case scenario
 		if (pixelsToModifyIndexes.includes(randomIndex)) {
 			i--;
 			continue;
@@ -219,7 +221,8 @@ function farbleCanvasRandomPixels(imageData) {
 
 		pixelsToModifyIndexes.push(randomIndex);
 
+		const channel = ~~(Math.random() * 4);
 		// modify the selected pixel
-		data[randomIndex] ^= 1;
+		data[(randomIndex * 4) + channel] ^= 1;
 	}
 }
