@@ -152,7 +152,11 @@ function farbleCanvasDataFPRandom(imageData, randomMode) {
 
 /**Shuffles the pixel data on the canvas
  * 
- * Uses alea() PRNG function to generate the indexes to be swapped
+ * Uses Math.random() to choose the RGB channel of pixel
+ * Then the channel will inherit the neighboring pixels' cahnnel values by following formula:
+ * pixel[Math.random() * 3] += 0.05 * (rightValue - leftValue)
+ * 
+ * This method applies for every pixel on the canvas
  */
 function farbleCanvasDataPixelShuffling(imageData) {
 	console.debug('Called farbleCanvasDataPixelShuffling()');
@@ -161,19 +165,25 @@ function farbleCanvasDataPixelShuffling(imageData) {
 	let len = data.length;
 
 	for (let i = 0; i < len; i += 4) {
-		const block = data.slice(i, i + 4);
-		for (let j = block.length - 2; j > 0; j--) {
-			if (Math.random() < 0.1) {
-				const k = ~~(Math.random() * (j + 1));
-				const temp = block[j];
-				block[j] = block[k];
-				block[k] = temp;
-			}
+		// choose the random channel which will inherit the values of neighboring pixel's channel
+		const channel = ~~(Math.random() * 3); 
 
-			for (let j = 0; j < block.length; j++) {
-				data[i + j] = block[j];
-			}
-		} // end of inner for loop
+		let leftValue = 0, rightValue = 0;
+		if (i - 4 + channel < 0) {
+			leftValue = data[i - 4 + channel];
+		}
+		if (i + 4 + channel <= len) {
+			rightValue = data[i + 4 + channel];	
+		}
+
+		data[i + channel] += 0.05 * (rightValue - leftValue);
+
+		// ensure it's 8-byte
+		if (data[i + channel] < 0) {
+			data[i + channel] = 0;
+		} else if (data[i + channel] > 255) {
+			data[i + channel] = 255;
+		}
 	} // end of outer for loop
 }
 
