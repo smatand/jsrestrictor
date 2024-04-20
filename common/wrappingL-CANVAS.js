@@ -262,9 +262,6 @@ function farbleCanvasRandomPixels(rowIterator, width) {
 	for (let row of rowIterator()) {
 		if (lenDataToModify === 0) {
 			row[channelToModify] ^= 1;
-			lenDataToModify = -1;
-			continue;
-		} else if (lenDataToModify === -1) {
 			break;
 		}
 
