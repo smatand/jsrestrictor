@@ -180,27 +180,37 @@
 						}
 						
 						function farblePixelsJS() {
+							const BYTES_PER_ROW = width * 4;
+
+							let rowIterator = function*() {
+							    let data = imageData.data;
+							    let offset = 0;
+							    while (offset < len) {
+							        yield data.subarray(offset, offset + BYTES_PER_ROW);
+							        offset += BYTES_PER_ROW;
+							    }
+							};
 							switch (approach) {
 								case 0:
-									farbleCanvasDataBrave(imageData);
+									farbleCanvasDataBrave(rowIterator, width);
 									break;
 								case 2:
-									farbleCanvasDataPriVaricatorA(imageData);
+									farbleCanvasDataPriVaricatorA(rowIterator, width);
 									break;
 								case 3:
-									farbleCanvasDataPriVaricatorB(imageData);
+									farbleCanvasDataPriVaricatorB(rowIterator, width);
 									break;
 								case 4:
-									farbleCanvasDataFPRandom(imageData, false); // randomMode off
+									farbleCanvasDataFPRandom(rowIterator, width, false); // randomMode off
 									break;
 								case 5:
-									farbleCanvasDataFPRandom(imageData, true); // randomMode on
+									farbleCanvasDataFPRandom(rowIterator, width, true); // randomMode on
 									break;
 								case 6:
-									farbleCanvasDataPixelShuffling(imageData);
+									farbleCanvasDataPixelShuffling(rowIterator, width);
 									break;
 								case 7:
-									farbleCanvasRandomPixels(imageData);
+									farbleCanvasRandomPixels(rowIterator, width);
 									break;
 								default:
 									console.error("fell to default case in farblePixelsJS switch");
