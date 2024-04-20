@@ -202,7 +202,9 @@ function farbleCanvasRandomPixels(imageData) {
 	let lenDataToModify = ~~(len_pixels_rgba * (0.1 + Math.random() * 0.1));
 
 	if (lenDataToModify === 0) {
-		lenDataToModify = Math.random() * 4; // one of the RGBA channels of a single pixel
+		const channelToModify  = ~~(Math.random() * 4); // one of the RGBA channels of a single pixel
+		data[channelToModify] ^= 1;
+		return;
 	}
 
 	let pixelsToModifyIndexes = [];
