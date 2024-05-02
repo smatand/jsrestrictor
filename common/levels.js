@@ -128,8 +128,8 @@ var wrapping_groups = {
 					config: [5],
 				},
 				{
-					short: "Pixel shuffle",
-					description: "Pixel shuffle method to protect against Canvas fingerprinting.",
+					short: "Smoothing 10%",
+					description: "Use smoothing's method to protect against Canvas fingerprinting. But 10 % of the randomly selected channel's from neighboring pixels are added to the current pixel.",
 					config: [6],
 				},
 				{
@@ -187,6 +187,21 @@ var wrapping_groups = {
 					description: "Use PriVaricator's method to protect against Canvas fingerprinting. But 75 % noise is added to canvas by XORing the RGB channels with themselves.",
 					config: [17],
 				},
+				{
+					short: "Smoothing 20%",
+					description: "Use smoothing's method to protect against Canvas fingerprinting. But 20 % of the randomly selected channel's from neighboring pixels are added to the current pixel.",
+					config: [18],
+				},
+				{
+					short: "Smoothing 30%",
+					description: "Use smoothing's method to protect against Canvas fingerprinting. But 30 % of the randomly selected channel's from neighboring pixels are added to the current pixel.",
+					config: [19],
+				},
+				{
+					short: "Smoothing 50%",
+					description: "Use smoothing's method to protect against Canvas fingerprinting. But 50 % of the randomly selected channel's from neighboring pixels are added to the current pixel.",
+					config: [20],
+				}
 			],
 			wrappers: [
 				// H-C
@@ -863,7 +878,10 @@ const L_CANVAS_PRIVARICATOR_5 = "CanvasMethod5";
 const L_CANVAS_PRIVARICATOR_10 = "CanvasMethod10";
 const L_CANVAS_FPRANDOM_OFF = "CanvasFPRandomOff";
 const L_CANVAS_FPRANDOM_ON = "CanvasFPRandomOn"
-const L_CANVAS_PIXEL_SHUFFLE = "CanvasPixelShuffle";
+const L_CANVAS_PIXEL_SMOOTH = "CanvasPixelSmooth"; // 10
+const L_CANVAS_PIXEL_SMOOTH20 = "CanvasPixelSmooth20";
+const L_CANVAS_PIXEL_SMOOTH30 = "CanvasPixelSmooth30";
+const L_CANVAS_PIXEL_SMOOTH50 = "CanvasPixelSmooth50";
 const L_CANVAS_NOISE = "CanvasNoise";
 const L_CANVAS_DEFAULT_2BITS = "CanvasDefault2Bits";
 const L_CANVAS_DEFAULT_3BITS = "CanvasDefault3Bits";
@@ -1033,12 +1051,12 @@ var level_canvas_fprandom_on = {
 	"htmlcanvaselement": 6,
 }
 
-// Pixel shuffling
-var level_canvas_pixel_shuffling = {
+// Pixel smoothing
+var level_canvas_pixel_smoothing = {
 	"builtin": true,
-	"level_id": L_CANVAS_PIXEL_SHUFFLE,
-	"level_text": "Canvas protection - Pixel shuffling",
-	"level_description": "Farble the Canvas API readings by shuffling the RGB channels of every pixel",
+	"level_id": L_CANVAS_PIXEL_SMOOTH,
+	"level_text": "Canvas protection - Pixel smoothing 10%",
+	"level_description": "Farble the Canvas API readings by smoothing the pixels",
 	"htmlcanvaselement": 7,
 }
 
@@ -1046,8 +1064,8 @@ var level_canvas_pixel_shuffling = {
 var level_canvas_noise = {
 	"builtin": true,
 	"level_id": L_CANVAS_NOISE,
-	"level_text": "Canvas protection - Noise",
-	"level_description": "Farble the Canvas API readings by modifying randomly selected ImageData.data",
+	"level_text": "Deprecated (noise)",
+	"level_description": "Deprecated (noise)",
 	"htmlcanvaselement": 8,
 }
 
@@ -1131,6 +1149,28 @@ var level_canvas_75 = {
 	"htmlcanvaselement": 18,
 }
 
+var level_canvas_pixel_smoothing20 = {
+	"builtin": true,
+	"level_id": L_CANVAS_PIXEL_SMOOTH20,
+	"level_text": "Canvas protection - Pixel smoothing 20%",
+	"level_description": "Farble the Canvas API readings by smoothing the pixels.",
+	"htmlcanvaselement": 19,
+}
+
+var level_canvas_pixel_smoothing30 = {
+	"builtin": true,
+	"level_id": L_CANVAS_PIXEL_SMOOTH30,
+	"level_text": "Canvas protection - Pixel smoothing 30%",
+	"level_description": "Farble the Canvas API readings by smoothing the pixels",
+	"htmlcanvaselement": 20,
+}
+var level_canvas_pixel_smoothing50 = {
+	"builtin": true,
+	"level_id": L_CANVAS_PIXEL_SMOOTH50,
+	"level_text": "Canvas protection - Pixel smoothing 50%",
+	"level_description": "Farble the Canvas API readings by smoothing the pixels",
+	"htmlcanvaselement": 21,
+}
 var modify_builtin_levels = modify_builtin_levels || (() => null); // Give other scripts the possibility to modify builtin levels
 modify_builtin_levels();
 
@@ -1149,7 +1189,7 @@ function init_levels() {
 		[level_canvas_10.level_id]: level_canvas_10,
 		[level_canvas_fprandom_off.level_id]: level_canvas_fprandom_off,
 		[level_canvas_fprandom_on.level_id]: level_canvas_fprandom_on,
-		[level_canvas_pixel_shuffling.level_id]: level_canvas_pixel_shuffling,
+		[level_canvas_pixel_smoothing.level_id]: level_canvas_pixel_smoothing,
 		[level_canvas_noise.level_id]: level_canvas_noise,
 		[level_canvas_default_2bits.level_id]: level_canvas_default_2bits,
 		[level_canvas_default_3bits.level_id]: level_canvas_default_3bits,
@@ -1161,6 +1201,9 @@ function init_levels() {
 		[level_canvas_20.level_id]: level_canvas_20,
 		[level_canvas_50.level_id]: level_canvas_50,
 		[level_canvas_75.level_id]: level_canvas_75,
+		[level_canvas_pixel_smoothing20.level_id]: level_canvas_pixel_smoothing20,
+		[level_canvas_pixel_smoothing30.level_id]: level_canvas_pixel_smoothing30,
+		[level_canvas_pixel_smoothing50.level_id]: level_canvas_pixel_smoothing50,
 	};
 	default_level = Object.create(levels[L_CANVAS_DEFAULT]);
 	default_level.level_text = "Default";

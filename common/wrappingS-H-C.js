@@ -136,7 +136,7 @@
 			}],
 			helping_code: helping_code + farbleCanvasDataBrave.toString() + 
 				farbleCanvasDataFPRandom.toString() + 
-				farbleCanvasDataPixelShuffling.toString() +	
+				farbleCanvasDataPixelSmoothing.toString() +	
 				farbleCanvasRandomPixels.toString() + `
 				var farble = function(context, fake) {
 					if(approach === 1){
@@ -195,10 +195,10 @@
 									farbleCanvasDataFPRandom(imageData, true); // randomMode on
 									break;
 								case 6:
-									farbleCanvasDataPixelShuffling(imageData);
+									farbleCanvasDataPixelSmoothing(imageData, 0.1);
 									break;
 								case 7:
-									farbleCanvasRandomPixels(imageData);
+									farbleCanvasDataBrave(imageData, 1);
 									break;
 								case 8:
 									farbleCanvasDataBrave(imageData, 3); // 2 bits
@@ -229,6 +229,15 @@
 									break;
 								case 17:
 									farbleCanvasRandomPixels(imageData, 75); // 75 %
+									break;
+								case 18:
+									farbleCanvasDataPixelSmoothing(imageData, 0.2);
+									break;
+								case 19:
+									farbleCanvasDataPixelSmoothing(imageData, 0.3);
+									break;
+								case 19:
+									farbleCanvasDataPixelSmoothing(imageData, 0.5);
 									break;
 								default:
 									console.error("fell to default case in farblePixelsJS switch");

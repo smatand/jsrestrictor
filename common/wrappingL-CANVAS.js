@@ -115,32 +115,31 @@ function farbleCanvasDataFPRandom(imageData, randomMode) {
  * 
  * This method applies for every pixel on the canvas
  */
-function farbleCanvasDataPixelShuffling(imageData) {
+function farbleCanvasDataPixelSmoothing(imageData, coefficient) {
 	console.debug('Called farbleCanvasDataPixelShuffling()');
 
 	let data = imageData.data;
 	let len = data.length;
 
+	if (coefficient > 1) {
+		coefficient = coefficient / 100;
+	}
+
 	for (let i = 0; i < len; i += 4) {
 		// choose the random channel which will inherit the values of neighboring pixel's channel
 		const channel = ~~(Math.random() * 3); 
 
-		let leftValue = 0, rightValue = 0;
-		if (i - 4 + channel < 0) {
+		let leftValue = 0
+		let rightValue = 0;
+		if (i - 4 + channel > 0) {
 			leftValue = data[i - 4 + channel];
 		}
 		if (i + 4 + channel <= len) {
 			rightValue = data[i + 4 + channel];	
 		}
 
-		data[i + channel] += 0.05 * (rightValue - leftValue);
-
-		// ensure it's 8-byte
-		if (data[i + channel] < 0) {
-			data[i + channel] = 0;
-		} else if (data[i + channel] > 255) {
-			data[i + channel] = 255;
-		}
+		data[i + channel] += coefficient * (rightValue - leftValue);
+		// do not care of overflow
 	} // end of outer for loop
 }
 
