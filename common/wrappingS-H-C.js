@@ -135,8 +135,6 @@
 				wrapped_name: "origGetImageData",
 			}],
 			helping_code: helping_code + farbleCanvasDataBrave.toString() + 
-				farbleCanvasDataPriVaricatorA.toString() + 
-				farbleCanvasDataPriVaricatorB.toString() + 
 				farbleCanvasDataFPRandom.toString() + 
 				farbleCanvasDataPixelShuffling.toString() +	
 				farbleCanvasRandomPixels.toString() + `
@@ -185,10 +183,10 @@
 									farbleCanvasDataBrave(imageData, 1);
 									break;
 								case 2:
-									farbleCanvasDataPriVaricatorA(imageData);
+									farbleCanvasRandomPixels(imageData, 5);
 									break;
 								case 3:
-									farbleCanvasDataPriVaricatorB(imageData);
+									farbleCanvasRandomPixels(imageData, 10);
 									break;
 								case 4:
 									farbleCanvasDataFPRandom(imageData, false); // randomMode off
@@ -219,6 +217,18 @@
 									break;
 								case 13:
 									farbleCanvasDataBrave(imageData, 127); // 7 bits
+									break;
+								case 14:
+									farbleCanvasRandomPixels(imageData, 15); // 25 %
+									break;
+								case 15:
+									farbleCanvasRandomPixels(imageData, 20); // 25 %
+									break;
+								case 16:
+									farbleCanvasRandomPixels(imageData, 50); // 50 %
+									break;
+								case 17:
+									farbleCanvasRandomPixels(imageData, 75); // 75 %
 									break;
 								default:
 									console.error("fell to default case in farblePixelsJS switch");

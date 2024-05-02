@@ -108,13 +108,13 @@ var wrapping_groups = {
 					config: [1],
 				},
 				{
-					short: "5% noise - method A",
-					description: "Use PriVaricator's method A to protect against Canvas fingerprinting.",
+					short: "5% noise",
+					description: "Use PriVaricator's method to protect against Canvas fingerprinting. The noise is added by selecting random pixels and XORing the RGB channels with themselves.",
 					config: [2],
 				},
 				{
-					short: "5% noise - method B",
-					description: "Use PriVaricator's method B to protect against Canvas fingerprinting.",
+					short: "10% noise",
+					description: "Use PriVaricator's method to protect against Canvas fingerprinting. But 10 % noise is added to canvas by XORing the RGB channels with themselves.",
 					config: [3],
 				},
 				{
@@ -166,6 +166,26 @@ var wrapping_groups = {
 					short: "Brave - 7 bits",
 					description: "Same implementation as in JShelter, but instead of 1 bit, modify 7 bits with 50 % chance of modification",
 					config: [13],
+				},				
+				{
+					short: "15% noise",
+					description: "Use PriVaricator's method to protect against Canvas fingerprinting. But 15 % noise is added to canvas by XORing the RGB channels with themselves.",
+					config: [14],
+				},
+				{
+					short: "20% noise",
+					description: "Use PriVaricator's method to protect against Canvas fingerprinting. But 20 % noise is added to canvas by XORing the RGB channels with themselves.",
+					config: [15],
+				},
+				{
+					short: "50% noise",
+					description: "Use PriVaricator's method to protect against Canvas fingerprinting. But 50 % noise is added to canvas by XORing the RGB channels with themselves.",
+					config: [16],
+				},				
+				{
+					short: "75% noise",
+					description: "Use PriVaricator's method to protect against Canvas fingerprinting. But 75 % noise is added to canvas by XORing the RGB channels with themselves.",
+					config: [17],
 				},
 			],
 			wrappers: [
@@ -839,8 +859,8 @@ const L_EXPERIMENTAL = "Experiment"; // Use a long ID so that it is not in confl
 
 // levels for canvas fingerprinting protection
 const L_CANVAS_DEFAULT = "CanvasDefault";
-const L_CANVAS_A = "CanvasMethodA";
-const L_CANVAS_B = "CanvasMethodB";
+const L_CANVAS_PRIVARICATOR_5 = "CanvasMethod5";
+const L_CANVAS_PRIVARICATOR_10 = "CanvasMethod10";
 const L_CANVAS_FPRANDOM_OFF = "CanvasFPRandomOff";
 const L_CANVAS_FPRANDOM_ON = "CanvasFPRandomOn"
 const L_CANVAS_PIXEL_SHUFFLE = "CanvasPixelShuffle";
@@ -851,6 +871,10 @@ const L_CANVAS_DEFAULT_4BITS = "CanvasDefault4Bits";
 const L_CANVAS_DEFAULT_5BITS = "CanvasDefault5Bits";
 const L_CANVAS_DEFAULT_6BITS = "CanvasDefault6Bits";
 const L_CANVAS_DEFAULT_7BITS = "CanvasDefault7Bits";
+const L_CANVAS_PRIVARICATOR_15 = "CanvasMethod15";
+const L_CANVAS_PRIVARICATOR_20 = "CanvasMethod20";
+const L_CANVAS_PRIVARICATOR_50 = "CanvasMethod50";
+const L_CANVAS_PRIVARICATOR_75 = "CanvasMethod75";
 
 /// Built-in levels
 var level_0 = {
@@ -974,20 +998,20 @@ var level_canvas_default = {
 };
 
 // Method A
-var level_canvas_a = {
+var level_canvas_5 = {
 	"builtin": true,
-	"level_id": L_CANVAS_A,
-	"level_text": "Canvas protection - 5% noise - A",
-	"level_description": "Farble the Canvas API readings by adding the 5% noise - method A (PriVaricator)",
+	"level_id": L_CANVAS_PRIVARICATOR_5,
+	"level_text": "Canvas protection - 5% noise",
+	"level_description": "Farble the Canvas API readings by adding the 5% noise",
 	"htmlcanvaselement": 3,
 };
 
 // Method B
-var level_canvas_b = {
+var level_canvas_10 = {
 	"builtin": true,
-	"level_id": L_CANVAS_B,
-	"level_text": "Canvas protection - 5% noise - B",
-	"level_description": "Farble the Canvas API readings by adding the 5% noise - method B (PriVaricator)",
+	"level_id": L_CANVAS_PRIVARICATOR_10,
+	"level_text": "Canvas protection - 10% noise",
+	"level_description": "Farble the Canvas API readings by adding the 10% noise ",
 	"htmlcanvaselement": 4,
 };
 
@@ -1050,6 +1074,7 @@ var level_canvas_default_4bits = {
 	"level_description": "Farble the Canvas API readings the Brave's way, but XOR 4 bits",
 	"htmlcanvaselement": 11,
 }
+
 var level_canvas_default_5bits = {
 	"builtin": true,
 	"level_id": L_CANVAS_DEFAULT_5BITS,
@@ -1057,6 +1082,7 @@ var level_canvas_default_5bits = {
 	"level_description": "Farble the Canvas API readings the Brave's way, but XOR 5 bits",
 	"htmlcanvaselement": 12,
 }
+
 var level_canvas_default_6bits = {
 	"builtin": true,
 	"level_id": L_CANVAS_DEFAULT_6BITS,
@@ -1064,12 +1090,45 @@ var level_canvas_default_6bits = {
 	"level_description": "Farble the Canvas API readings the Brave's way, but XOR 6 bits",
 	"htmlcanvaselement": 13,
 }
+
 var level_canvas_default_7bits = {
 	"builtin": true,
 	"level_id": L_CANVAS_DEFAULT_7BITS,
 	"level_text": "Canvas protection default 7 bits",
 	"level_description": "Farble the Canvas API readings the Brave's way, but XOR 7 bits",
 	"htmlcanvaselement": 14,
+}
+
+var level_canvas_15 = {
+	"builtin": true,
+	"level_id": L_CANVAS_PRIVARICATOR_15,
+	"level_text": "Canvas protection - 15% noise",
+	"level_description": "Farble the Canvas API readings by adding the 15% noise ",
+	"htmlcanvaselement": 15,
+}
+
+var level_canvas_20 = {
+	"builtin": true,
+	"level_id": L_CANVAS_PRIVARICATOR_20,
+	"level_text": "Canvas protection - 20% noise",
+	"level_description": "Farble the Canvas API readings by adding the 20% noise ",
+	"htmlcanvaselement": 16,
+}
+
+var level_canvas_50 = {
+	"builtin": true,
+	"level_id": L_CANVAS_PRIVARICATOR_50,
+	"level_text": "Canvas protection - 50% noise",
+	"level_description": "Farble the Canvas API readings by adding the 50% noise ",
+	"htmlcanvaselement": 17,
+}
+
+var level_canvas_75 = {
+	"builtin": true,
+	"level_id": L_CANVAS_PRIVARICATOR_75,
+	"level_text": "Canvas protection - 75% noise",
+	"level_description": "Farble the Canvas API readings by adding the 75% noise ",
+	"htmlcanvaselement": 18,
 }
 
 var modify_builtin_levels = modify_builtin_levels || (() => null); // Give other scripts the possibility to modify builtin levels
@@ -1086,8 +1145,8 @@ function init_levels() {
 		[level_3.level_id]: level_3,
 		[level_experimental.level_id]: level_experimental,
 		[level_canvas_default.level_id]: level_canvas_default,
-		[level_canvas_a.level_id]: level_canvas_a,
-		[level_canvas_b.level_id]: level_canvas_b,
+		[level_canvas_5.level_id]: level_canvas_5,
+		[level_canvas_10.level_id]: level_canvas_10,
 		[level_canvas_fprandom_off.level_id]: level_canvas_fprandom_off,
 		[level_canvas_fprandom_on.level_id]: level_canvas_fprandom_on,
 		[level_canvas_pixel_shuffling.level_id]: level_canvas_pixel_shuffling,
@@ -1098,6 +1157,10 @@ function init_levels() {
 		[level_canvas_default_5bits.level_id]: level_canvas_default_5bits,
 		[level_canvas_default_6bits.level_id]: level_canvas_default_6bits,
 		[level_canvas_default_7bits.level_id]: level_canvas_default_7bits,
+		[level_canvas_15.level_id]: level_canvas_15,
+		[level_canvas_20.level_id]: level_canvas_20,
+		[level_canvas_50.level_id]: level_canvas_50,
+		[level_canvas_75.level_id]: level_canvas_75,
 	};
 	default_level = Object.create(levels[L_CANVAS_DEFAULT]);
 	default_level.level_text = "Default";

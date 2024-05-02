@@ -55,49 +55,6 @@ function farbleCanvasDataBrave(imageData, number) {
 	} // end of for loop
 }
 
-/**Farble image data, inspired by PriVaricator's adding 5% noise
- * 
- * as the PriVaricator's implementation is not available, we implement it on our own
- * and name it as method A
- */
-function farbleCanvasDataPriVaricatorA(imageData) {
-	console.debug('Called farbleCanvasDataPriVaricatorA()');
-
-	let data = imageData.data;
-	let len = data.length;
-
-	for (let i = 0; i < len; i += 4) {
-		if (Math.random() <= 0.05) {
-			// choose either of the channels by newly generated random number
-			// [0, 1, 2] for RGB, A is not modified
-			const i_rgb = ~~(Math.random() * 3);
-
-			data[i + i_rgb] ^= 1;
-		}
-	} // end of for loop
-}
-
-/**Farble image data, inspired by PriVaricator's adding 5% noise
- * 
- * as the PriVaricator's implementation is not available, we implement it on our own
- * and name it as method B, which compared to method A, modifies alpha channel too (with 1/4 probability)
- */
-function farbleCanvasDataPriVaricatorB(imageData) {
-	console.debug('Called farbleCanvasDataPriVaricatorB()');
-
-	let data = imageData.data;
-	let len = data.length;
-
-	for (let i = 0; i < len; i += 4) {
-		if (Math.random() <= 0.05) {
-			// choose either of the channels by newly generated random number
-			// [0, 1, 2, 3] for RGBA
-			const i_rgb = ~~(Math.random() * 4);
-
-			data[i + i_rgb] ^= 1;
-		}
-	} // end of for loop
-}
 
 /**Farble image data, inspired by FPRandom 
  * 
@@ -189,42 +146,30 @@ function farbleCanvasDataPixelShuffling(imageData) {
 
 /**Farbles the canvas by randomly selecting pixels which will be modified, in advance
  * 
- * The modification is done by bitwise XOR with 1
+ * The modification is done by negating rgb channel
  */
-function farbleCanvasRandomPixels(imageData) {
+function farbleCanvasRandomPixels(imageData, percentage) {
 	console.debug('Called farbleCanvasRandomPixels()');
 
 	let data = imageData.data;
 	const len = data.length;
 
-	// generate random indexes of data to be modified for 20% of the canvas
-	const len_pixels_rgba = len / 4;
-	let lenDataToModify = ~~(len_pixels_rgba * (0.1 + Math.random() * 0.1));
-
-	if (lenDataToModify === 0) {
-		const channelToModify  = ~~(Math.random() * 4); // one of the RGBA channels of a single pixel
-		data[channelToModify] ^= 1;
-		return;
+	// just to assure
+	if (percentage > 1) {
+		percentage = percentage / 100;
 	}
 
-	let pixelsToModifyIndexes = [];
+	// generate random indexes of data to be modified for 20% of the canvas
+	const len_pixels_rgba = len / 4;
+	let lenDataToModify = ~~(len_pixels_rgba * percentage);
 
 	// generate random indexes of pixels and modify them right at place
 	for (let i = 0; i < lenDataToModify; i++) {
-		let randomIndex = ~~(Math.random() * len_pixels_rgba);
+		let randomIndex = ~~(Math.random() * len_pixels_rgba) * 4;
 
-		// check if the index is already in the array
-		// guaranteeing that at least 0.15 of the canvas will be modified
-		// O(n^2) in worst case scenario
-		if (pixelsToModifyIndexes.includes(randomIndex)) {
-			i--;
-			continue;
-		}
-
-		pixelsToModifyIndexes.push(randomIndex);
-
-		const channel = ~~(Math.random() * 4);
-		// modify the selected pixel
-		data[(randomIndex * 4) + channel] ^= 1;
+		// negate each of the RGB channels
+		data[randomIndex] = 255 - data[randomIndex];
+		data[randomIndex+1] = 255 - data[randomIndex+1];
+		data[randomIndex+2] = 255 - data[randomIndex+2];
 	}
 }
