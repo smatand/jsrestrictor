@@ -37,7 +37,7 @@
  * \param height Height of the original canvas.
  * \param width Width of the original canvas.
  */
-function farbleCanvasDataBrave(imageData) {
+function farbleCanvasDataBrave(imageData, number) {
 	console.debug('Called farbleCanvasDataBrave()');
 
 	let data = imageData.data;
@@ -50,7 +50,7 @@ function farbleCanvasDataBrave(imageData) {
 		}
 
 		if (Math.random() < 0.5) {
-            data[i] ^= 1;
+            data[i] ^= number;
         }
 	} // end of for loop
 }

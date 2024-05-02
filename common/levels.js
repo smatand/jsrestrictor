@@ -136,7 +136,37 @@ var wrapping_groups = {
 					short: "Noise of randomly selected pixels",
 					description: "15% of noise is added to canvas by XOR with 1 of randomly selected RGBA channels of random pixels",
 					config: [7],
-				}
+				},
+				{
+					short: "Brave - 2 bits",
+					description: "Same implementation as in JShelter, but instead of 1 bit, modify 2 bits with 50 % chance of modification",
+					config: [8],
+				},
+				{
+					short: "Brave - 3 bits",
+					description: "Same implementation as in JShelter, but instead of 1 bit, modify 3 bits with 50 % chance of modification",
+					config: [9],
+				},
+				{
+					short: "Brave - 4 bits",
+					description: "Same implementation as in JShelter, but instead of 1 bit, modify 4 bits with 50 % chance of modification",
+					config: [10],
+				},
+				{
+					short: "Brave - 5 bits",
+					description: "Same implementation as in JShelter, but instead of 1 bit, modify 5 bits with 50 % chance of modification",
+					config: [11],
+				},
+				{
+					short: "Brave - 6 bits",
+					description: "Same implementation as in JShelter, but instead of 1 bit, modify 6 bits with 50 % chance of modification",
+					config: [12],
+				},
+				{
+					short: "Brave - 7 bits",
+					description: "Same implementation as in JShelter, but instead of 1 bit, modify 7 bits with 50 % chance of modification",
+					config: [13],
+				},
 			],
 			wrappers: [
 				// H-C
@@ -815,6 +845,12 @@ const L_CANVAS_FPRANDOM_OFF = "CanvasFPRandomOff";
 const L_CANVAS_FPRANDOM_ON = "CanvasFPRandomOn"
 const L_CANVAS_PIXEL_SHUFFLE = "CanvasPixelShuffle";
 const L_CANVAS_NOISE = "CanvasNoise";
+const L_CANVAS_DEFAULT_2BITS = "CanvasDefault2Bits";
+const L_CANVAS_DEFAULT_3BITS = "CanvasDefault3Bits";
+const L_CANVAS_DEFAULT_4BITS = "CanvasDefault4Bits";
+const L_CANVAS_DEFAULT_5BITS = "CanvasDefault5Bits";
+const L_CANVAS_DEFAULT_6BITS = "CanvasDefault6Bits";
+const L_CANVAS_DEFAULT_7BITS = "CanvasDefault7Bits";
 
 /// Built-in levels
 var level_0 = {
@@ -991,6 +1027,51 @@ var level_canvas_noise = {
 	"htmlcanvaselement": 8,
 }
 
+var level_canvas_default_2bits = {
+	"builtin": true,
+	"level_id": L_CANVAS_DEFAULT_2BITS,
+	"level_text": "Canvas protection default 2 bits",
+	"level_description": "Farble the Canvas API readings the Brave's way, but XOR 2 bits",
+	"htmlcanvaselement": 9,
+}
+
+var level_canvas_default_3bits = {
+	"builtin": true,
+	"level_id": L_CANVAS_DEFAULT_3BITS,
+	"level_text": "Canvas protection default 3 bits",
+	"level_description": "Farble the Canvas API readings the Brave's way, but XOR 3 bits",
+	"htmlcanvaselement": 10,
+}
+
+var level_canvas_default_4bits = {
+	"builtin": true,
+	"level_id": L_CANVAS_DEFAULT_4BITS,
+	"level_text": "Canvas protection default 4 bits",
+	"level_description": "Farble the Canvas API readings the Brave's way, but XOR 4 bits",
+	"htmlcanvaselement": 11,
+}
+var level_canvas_default_5bits = {
+	"builtin": true,
+	"level_id": L_CANVAS_DEFAULT_5BITS,
+	"level_text": "Canvas protection default 5 bits",
+	"level_description": "Farble the Canvas API readings the Brave's way, but XOR 5 bits",
+	"htmlcanvaselement": 12,
+}
+var level_canvas_default_6bits = {
+	"builtin": true,
+	"level_id": L_CANVAS_DEFAULT_6BITS,
+	"level_text": "Canvas protection default 6 bits",
+	"level_description": "Farble the Canvas API readings the Brave's way, but XOR 6 bits",
+	"htmlcanvaselement": 13,
+}
+var level_canvas_default_7bits = {
+	"builtin": true,
+	"level_id": L_CANVAS_DEFAULT_7BITS,
+	"level_text": "Canvas protection default 7 bits",
+	"level_description": "Farble the Canvas API readings the Brave's way, but XOR 7 bits",
+	"htmlcanvaselement": 14,
+}
+
 var modify_builtin_levels = modify_builtin_levels || (() => null); // Give other scripts the possibility to modify builtin levels
 modify_builtin_levels();
 
@@ -1011,6 +1092,12 @@ function init_levels() {
 		[level_canvas_fprandom_on.level_id]: level_canvas_fprandom_on,
 		[level_canvas_pixel_shuffling.level_id]: level_canvas_pixel_shuffling,
 		[level_canvas_noise.level_id]: level_canvas_noise,
+		[level_canvas_default_2bits.level_id]: level_canvas_default_2bits,
+		[level_canvas_default_3bits.level_id]: level_canvas_default_3bits,
+		[level_canvas_default_4bits.level_id]: level_canvas_default_4bits,
+		[level_canvas_default_5bits.level_id]: level_canvas_default_5bits,
+		[level_canvas_default_6bits.level_id]: level_canvas_default_6bits,
+		[level_canvas_default_7bits.level_id]: level_canvas_default_7bits,
 	};
 	default_level = Object.create(levels[L_CANVAS_DEFAULT]);
 	default_level.level_text = "Default";

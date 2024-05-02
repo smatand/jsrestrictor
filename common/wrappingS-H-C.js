@@ -182,7 +182,7 @@
 						function farblePixelsJS() {
 							switch (approach) {
 								case 0:
-									farbleCanvasDataBrave(imageData);
+									farbleCanvasDataBrave(imageData, 1);
 									break;
 								case 2:
 									farbleCanvasDataPriVaricatorA(imageData);
@@ -201,6 +201,24 @@
 									break;
 								case 7:
 									farbleCanvasRandomPixels(imageData);
+									break;
+								case 8:
+									farbleCanvasDataBrave(imageData, 3); // 2 bits
+									break;
+								case 9:
+									farbleCanvasDataBrave(imageData, 7); // 3 bits
+									break;
+								case 10:
+									farbleCanvasDataBrave(imageData, 15); // 4 bits
+									break;
+								case 11:
+									farbleCanvasDataBrave(imageData, 31); // 5 bits
+									break;
+								case 12:
+									farbleCanvasDataBrave(imageData, 63); // 6 bits
+									break;
+								case 13:
+									farbleCanvasDataBrave(imageData, 127); // 7 bits
 									break;
 								default:
 									console.error("fell to default case in farblePixelsJS switch");
