@@ -236,7 +236,7 @@
 								case 19:
 									farbleCanvasDataPixelSmoothing(imageData, 0.3);
 									break;
-								case 19:
+								case 20:
 									farbleCanvasDataPixelSmoothing(imageData, 0.5);
 									break;
 								default:
