@@ -172,3 +172,55 @@ function farbleCanvasRandomPixels(imageData, percentage) {
 		data[randomIndex+2] = 255 - data[randomIndex+2];
 	}
 }
+
+/**Farble the canvas by mapping fake colours to real colours (RGB's values) */
+function farbleCanvasMapping(imageData, threshold) {
+	console.debug('Called farbleCanvasMapping()');
+
+	let data = imageData.data;
+	const len = data.length;
+
+	let colorMap = new Map();
+
+	for (let i = 0; i < len; i += 4) {
+		let r = data[i];
+		let g = data[i + 1];	
+		let b = data[i + 2];
+		let colorKey = `${r}-${g}-${b}`;
+
+		if (!colorMap.has(colorKey)) {
+			colorMap.set(colorKey, true);
+		}
+	}
+
+	if (colorMap.size > threshold) {
+		// iterate over the data and slightly change the colours,
+		// but each colour will be mapped to the same fake colour
+		for (let [colorKey, _] of colorMap) {
+			let [r, g, b] = colorKey.split('-');
+
+			let fakeR = r;
+			let fakeG = g;
+			let fakeB = b;
+
+			if (Math.random() < 0.5) {
+				fakeR ^= 1;
+			}
+			if (Math.random() < 0.5) {
+				fakeG ^= 1;
+			}
+			if (Math.random() < 0.5) {
+				fakeB ^= 1;
+			}
+
+			for (let i = 0; i < len; i += 4) {
+				if (data[i] == r && data[i + 1] == g && data[i + 2] == b) {
+					data[i] = fakeR;
+					data[i + 1] = fakeG;
+					data[i + 2] = fakeB;
+				}
+			}
+		}
+
+	}
+}

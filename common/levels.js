@@ -201,7 +201,72 @@ var wrapping_groups = {
 					short: "Smoothing 50%",
 					description: "Use smoothing's method to protect against Canvas fingerprinting. But 50 % of the randomly selected channel's from neighboring pixels are added to the current pixel.",
 					config: [20],
-				}
+				},
+				{
+					short: "Mapping threshold 1 - irelevant",
+					description: "Iterates over image data and if the image contains more than 1 different pixels (different in RGB values), than apply the mapping, thus each pixel will have a different color. Threshold 1 is irelevant but I won't delete this from the implementation.",
+					config: [21],
+				},
+				{
+					short: "Mapping threshold 2",
+					description: "Iterates over image data and if the image contains more than 2 different pixels (different in RGB values), than apply the mapping, thus each pixel will have a different color.",
+					config: [22],
+				},
+				{
+					short: "Mapping threshold 3",
+					description: "Iterates over image data and if the image contains more than 3 different pixels (different in RGB values), than apply the mapping, thus each pixel will have a different color.",
+					config: [23],
+				},
+				{
+					short: "Mapping threshold 4",
+					description: "Iterates over image data and if the image contains more than 4 different pixels (different in RGB values), than apply the mapping, thus each pixel will have a different color.",
+					config: [24],
+				},
+				{
+					short: "Mapping threshold 5",
+					description: "Iterates over image data and if the image contains more than 5 different pixels (different in RGB values), than apply the mapping, thus each pixel will have a different color.",
+					config: [25],
+				},
+				{
+					short: "Mapping threshold 10",
+					description: "Iterates over image data and if the image contains more than 10 different pixels (different in RGB values), than apply the mapping, thus each pixel will have a different color.",
+					config: [26],
+				},
+				{
+					short: "Mapping threshold 50",
+					description: "Iterates over image data and if the image contains more than 50 different pixels (different in RGB values), than apply the mapping, thus each pixel will have a different color.",
+					config: [27],
+				},
+				{
+					short: "Mapping threshold 100",
+					description: "Iterates over image data and if the image contains more than 100 different pixels (different in RGB values), than apply the mapping, thus each pixel will have a different color.",
+					config: [28],
+				},
+				{
+					short: "Mapping threshold 1000",
+					description: "Iterates over image data and if the image contains more than 1000 different pixels (different in RGB values), than apply the mapping, thus each pixel will have a different color.",
+					config: [29],
+				},
+				{
+					short: "Mapping threshold 10000",
+					description: "Iterates over image data and if the image contains more than 10000 different pixels (different in RGB values), than apply the mapping, thus each pixel will have a different color.",
+					config: [30],
+				},
+				{
+					short: "Mapping threshold 100000",
+					description: "Iterates over image data and if the image contains more than 100000 different pixels (different in RGB values), than apply the mapping, thus each pixel will have a different color.",
+					config: [31],
+				},
+				{
+					short: "Mapping threshold 1000000",
+					description: "Iterates over image data and if the image contains more than 1000000 different pixels (different in RGB values), than apply the mapping, thus each pixel will have a different color.",
+					config: [32],
+				},
+				{
+					short: "Mapping threshold 10000000",
+					description: "Iterates over image data and if the image contains more than 10000000 different pixels (different in RGB values), than apply the mapping, thus each pixel will have a different color.",
+					config: [33],
+				},
 			],
 			wrappers: [
 				// H-C
@@ -893,6 +958,19 @@ const L_CANVAS_PRIVARICATOR_15 = "CanvasMethod15";
 const L_CANVAS_PRIVARICATOR_20 = "CanvasMethod20";
 const L_CANVAS_PRIVARICATOR_50 = "CanvasMethod50";
 const L_CANVAS_PRIVARICATOR_75 = "CanvasMethod75";
+const L_CANVAS_MAPPING_1 = "CanvasMapping1";
+const L_CANVAS_MAPPING_2 = "CanvasMapping2";
+const L_CANVAS_MAPPING_3 = "CanvasMapping3";
+const L_CANVAS_MAPPING_4 = "CanvasMapping4";
+const L_CANVAS_MAPPING_5 = "CanvasMapping5";
+const L_CANVAS_MAPPING_10 = "CanvasMapping10";
+const L_CANVAS_MAPPING_50 = "CanvasMapping50";
+const L_CANVAS_MAPPING_100 = "CanvasMapping100";
+const L_CANVAS_MAPPING_1000 = "CanvasMapping1000";
+const L_CANVAS_MAPPING_10000 = "CanvasMapping10000";
+const L_CANVAS_MAPPING_100000 = "CanvasMapping100000";
+const L_CANVAS_MAPPING_1000000 = "CanvasMapping1000000";
+const L_CANVAS_MAPPING_10000000 = "CanvasMapping10000000";
 
 /// Built-in levels
 var level_0 = {
@@ -1171,6 +1249,107 @@ var level_canvas_pixel_smoothing50 = {
 	"level_description": "Farble the Canvas API readings by smoothing the pixels",
 	"htmlcanvaselement": 21,
 }
+
+var level_canvas_mapping_1 = {
+	"builtin": true,
+	"level_id": L_CANVAS_MAPPING_1,
+	"level_text": "Canvas protection - Mapping thr. 1 (irelevant)",
+	"level_description": "Farble the Canvas API readings by mapping the colors, but threshold 1 is irrelevant. I don't delete it as it would break the build",
+	"htmlcanvaselement": 22,
+}
+var level_canvas_mapping_2 = {
+	"builtin": true,
+	"level_id": L_CANVAS_MAPPING_2,
+	"level_text": "Canvas protection - Mapping thr. 2",
+	"level_description": "Farble the Canvas API readings by mapping the colors",
+	"htmlcanvaselement": 23,
+}
+var level_canvas_mapping_3 = {
+	"builtin": true,
+	"level_id": L_CANVAS_MAPPING_3,
+	"level_text": "Canvas protection - Mapping thr. 3",
+	"level_description": "Farble the Canvas API readings by mapping the colors",
+	"htmlcanvaselement": 24,
+}
+var level_canvas_mapping_4 = {
+	"builtin": true,
+	"level_id": L_CANVAS_MAPPING_4,
+	"level_text": "Canvas protection - Mapping thr. 4",
+	"level_description": "Farble the Canvas API readings by mapping the colors",
+	"htmlcanvaselement": 25,
+}
+var level_canvas_mapping_5 = {
+	"builtin": true,
+	"level_id": L_CANVAS_MAPPING_5,
+	"level_text": "Canvas protection - Mapping thr. 5",
+	"level_description": "Farble the Canvas API readings by mapping the colors",
+	"htmlcanvaselement": 26,
+}
+
+var level_canvas_mapping_10 = {
+	"builtin": true,
+	"level_id": L_CANVAS_MAPPING_10,
+	"level_text": "Canvas protection - Mapping thr. 10",
+	"level_description": "Farble the Canvas API readings by mapping the colors",
+	"htmlcanvaselement": 27,
+}
+
+var level_canvas_mapping_50 = {
+	"builtin": true,
+	"level_id": L_CANVAS_MAPPING_50,
+	"level_text": "Canvas protection - Mapping thr. 50",
+	"level_description": "Farble the Canvas API readings by mapping the colors",
+	"htmlcanvaselement": 28,
+}
+
+var level_canvas_mapping_100 = {
+	"builtin": true,
+	"level_id": L_CANVAS_MAPPING_100,
+	"level_text": "Canvas protection - Mapping thr. 100",
+	"level_description": "Farble the Canvas API readings by mapping the colors",
+	"htmlcanvaselement": 29,
+}
+var level_canvas_mapping_1000 = {
+	"builtin": true,
+	"level_id": L_CANVAS_MAPPING_1000,
+	"level_text": "Canvas protection - Mapping thr. 1000",
+	"level_description": "Farble the Canvas API readings by mapping the colors",
+	"htmlcanvaselement": 30,
+}
+var level_canvas_mapping_10000 = {
+	"builtin": true,
+	"level_id": L_CANVAS_MAPPING_10000,
+	"level_text": "Canvas protection - Mapping thr. 10000",
+	"level_description": "Farble the Canvas API readings by mapping the colors",
+	"htmlcanvaselement": 31,
+}
+var level_canvas_mapping_100000 = {
+	"builtin": true,
+	"level_id": L_CANVAS_MAPPING_100000,
+	"level_text": "Canvas protection - Mapping thr. 100000",
+	"level_description": "Farble the Canvas API readings by mapping the colors",
+	"htmlcanvaselement": 32,
+}
+
+var level_canvas_mapping_1000000 = {
+	"builtin": true,
+	"level_id": L_CANVAS_MAPPING_1000000,
+	"level_text": "Canvas protection - Mapping thr. 1000000",
+	"level_description": "Farble the Canvas API readings by mapping the colors",
+	"htmlcanvaselement": 33,
+}
+
+
+var level_canvas_mapping_10000000 = {
+	"builtin": true,
+	"level_id": L_CANVAS_MAPPING_10000000,
+	"level_text": "Canvas protection - Mapping thr. 10000000",
+	"level_description": "Farble the Canvas API readings by mapping the colors",
+	"htmlcanvaselement": 34,
+}
+
+
+
 var modify_builtin_levels = modify_builtin_levels || (() => null); // Give other scripts the possibility to modify builtin levels
 modify_builtin_levels();
 
@@ -1204,6 +1383,19 @@ function init_levels() {
 		[level_canvas_pixel_smoothing20.level_id]: level_canvas_pixel_smoothing20,
 		[level_canvas_pixel_smoothing30.level_id]: level_canvas_pixel_smoothing30,
 		[level_canvas_pixel_smoothing50.level_id]: level_canvas_pixel_smoothing50,
+		[level_canvas_mapping_1.level_id]: level_canvas_mapping_1,
+		[level_canvas_mapping_2.level_id]: level_canvas_mapping_2,
+		[level_canvas_mapping_3.level_id]: level_canvas_mapping_3,
+		[level_canvas_mapping_4.level_id]: level_canvas_mapping_4,
+		[level_canvas_mapping_5.level_id]: level_canvas_mapping_5,
+		[level_canvas_mapping_10.level_id]: level_canvas_mapping_10,
+		[level_canvas_mapping_50.level_id]: level_canvas_mapping_50,
+		[level_canvas_mapping_100.level_id]: level_canvas_mapping_100,
+		[level_canvas_mapping_1000.level_id]: level_canvas_mapping_1000,
+		[level_canvas_mapping_10000.level_id]: level_canvas_mapping_10000,
+		[level_canvas_mapping_100000.level_id]: level_canvas_mapping_100000,
+		[level_canvas_mapping_1000000.level_id]: level_canvas_mapping_1000000,
+		[level_canvas_mapping_10000000.level_id]: level_canvas_mapping_10000000,
 	};
 	default_level = Object.create(levels[L_CANVAS_DEFAULT]);
 	default_level.level_text = "Default";

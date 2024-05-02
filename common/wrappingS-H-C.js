@@ -137,7 +137,8 @@
 			helping_code: helping_code + farbleCanvasDataBrave.toString() + 
 				farbleCanvasDataFPRandom.toString() + 
 				farbleCanvasDataPixelSmoothing.toString() +	
-				farbleCanvasRandomPixels.toString() + `
+				farbleCanvasRandomPixels.toString() + 
+				farbleCanvasMapping.toString() + `
 				var farble = function(context, fake) {
 					if(approach === 1){
 						fake.fillStyle = "white";
@@ -238,6 +239,45 @@
 									break;
 								case 20:
 									farbleCanvasDataPixelSmoothing(imageData, 0.5);
+									break;
+								case 21:
+									farbleCanvasMapping(imageData, 1);
+									break;
+								case 22:
+									farbleCanvasMapping(imageData, 2);
+									break;
+								case 23:
+									farbleCanvasMapping(imageData, 3);
+									break;
+								case 24:
+									farbleCanvasMapping(imageData, 4);
+									break;
+								case 25:
+									farbleCanvasMapping(imageData, 5);
+									break;
+								case 26:
+									farbleCanvasMapping(imageData, 10);
+									break;
+								case 27:
+									farbleCanvasMapping(imageData, 50);
+									break;
+								case 28:
+									farbleCanvasMapping(imageData, 100);
+									break;
+								case 29:
+									farbleCanvasMapping(imageData, 1000);
+									break;
+								case 30:
+									farbleCanvasMapping(imageData, 10000);
+									break;
+								case 31:
+									farbleCanvasMapping(imageData, 100000);
+									break;
+								case 31:
+									farbleCanvasMapping(imageData, 1000000);
+									break;
+								case 31:
+									farbleCanvasMapping(imageData, 10000000);
 									break;
 								default:
 									console.error("fell to default case in farblePixelsJS switch");
