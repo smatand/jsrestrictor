@@ -267,6 +267,21 @@ var wrapping_groups = {
 					description: "Iterates over image data and if the image contains more than 10000000 different pixels (different in RGB values), than apply the mapping, thus each pixel will have a different color.",
 					config: [33],
 				},
+				{
+					short: "Brave threshold 1000",
+					description: "Iterates over image data and if the image contains more than 1000 different pixels (different in RGB values), then apply the Brave's method of modification.. ",
+					config: [34],
+				},
+				{
+					short: "FPRandom <-6, 6>",
+					description: "same as FPRandom's impelemntation, but the range is twice the original ",
+					config: [35],
+				},
+				{
+					short: "FPRandom <-6, 6>, threshold 1000",
+					description: "same as FPRandom's impelemntation, but the range is twice the original. Uses mapping' algo to determine the farbling",
+					config: [36],
+				},
 			],
 			wrappers: [
 				// H-C
@@ -971,6 +986,9 @@ const L_CANVAS_MAPPING_10000 = "CanvasMapping10000";
 const L_CANVAS_MAPPING_100000 = "CanvasMapping100000";
 const L_CANVAS_MAPPING_1000000 = "CanvasMapping1000000";
 const L_CANVAS_MAPPING_10000000 = "CanvasMapping10000000";
+const L_BRAVE_THRESHOLD_1000 = "CanvasBrave1000";
+const L_CANVAS_FPRANDOM_OFF_6 = "CanvasFPRandomOff6";
+const L_CANVAS_FPRANDOM_OFF_6_THRESHOLD_1000 = "CanvasFPRandomOff6Threshold1000";
 
 /// Built-in levels
 var level_0 = {
@@ -1348,9 +1366,32 @@ var level_canvas_mapping_10000000 = {
 	"htmlcanvaselement": 34,
 }
 
+var level_brave_1000 = {
+	"builtin": true,
+	"level_id": L_BRAVE_THRESHOLD_1000,
+	"level_text": "Canvas protection - Apply Brave's method if 1000 different colors are detected",
+	"level_description": "Farble the Canvas API readings by Brave's method after exceeding the 1000 different colors in the canvas",
+	"htmlcanvaselement": 35,
+}
 
+var level_fprandom_6_range = {
+	"builtin": true,
+	"level_id": L_CANVAS_FPRANDOM_OFF_6,
+	"level_text": "Canvas protection - FPRandom <-6,6> range",
+	"level_description": "FPRandom <-6,6>",
+	"htmlcanvaselement": 36,
+}
+
+var level_fprandom_6_range_threshold_1000 = {
+	"builtin": true,
+	"level_id": L_CANVAS_FPRANDOM_OFF_6_THRESHOLD_1000,
+	"level_text": "Canvas protection - FPRandom <-6,6> range with threshold from mapping's algo",
+	"level_description": "FPRandom <-6,6>, mapping algo",
+	"htmlcanvaselement": 37,
+}
 
 var modify_builtin_levels = modify_builtin_levels || (() => null); // Give other scripts the possibility to modify builtin levels
+
 modify_builtin_levels();
 
 var levels = {};
@@ -1396,6 +1437,9 @@ function init_levels() {
 		[level_canvas_mapping_100000.level_id]: level_canvas_mapping_100000,
 		[level_canvas_mapping_1000000.level_id]: level_canvas_mapping_1000000,
 		[level_canvas_mapping_10000000.level_id]: level_canvas_mapping_10000000,
+		[level_brave_1000.level_id]: level_brave_1000,
+		[level_fprandom_6_range.level_id]: level_fprandom_6_range,
+		[level_fprandom_6_range_threshold_1000.level_id]: level_fprandom_6_range_threshold_1000,
 	};
 	default_level = Object.create(levels[L_CANVAS_DEFAULT]);
 	default_level.level_text = "Default";

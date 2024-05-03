@@ -63,7 +63,7 @@ function farbleCanvasDataBrave(imageData, number) {
  * Important note: as the original implementation is in C++, we cannot use it directly using JShelter,
  * 				   thus we try to implement the algorithm on our own with JS
  */
-function farbleCanvasDataFPRandom(imageData, randomMode) {
+function farbleCanvasDataFPRandom(imageData, randomMode, range=3, constant=7) {
 	console.debug(`Called farbleCanvasDataFPRandom() with randomMode: ${randomMode}`);
 
 	let data = imageData.data;
@@ -74,13 +74,13 @@ function farbleCanvasDataFPRandom(imageData, randomMode) {
 	let randomR, randomG, randomB;
 
 	function getRandomRGB() {
-		randomR = ~~(Math.random() * 7);
-		randomG = ~~(Math.random() * 7);
-		randomB = ~~(Math.random() * 7);
+		randomR = ~~(Math.random() * constant);
+		randomG = ~~(Math.random() * constant);
+		randomB = ~~(Math.random() * constant);
 	}
 
 	function getModifiedColor(color, randomNum) {
-		let newColor = color - 3 + randomNum;
+		let newColor = color - range + randomNum;
 		if (MIN_HEX_CODE > newColor) {
 			newColor = 0;
 		}
@@ -174,7 +174,7 @@ function farbleCanvasRandomPixels(imageData, percentage) {
 }
 
 /**Farble the canvas by mapping fake colours to real colours (RGB's values) */
-function farbleCanvasMapping(imageData, threshold) {
+function farbleCanvasMapping(imageData, threshold, variant=0) {
 	console.debug('Called farbleCanvasMapping()');
 
 	let data = imageData.data;
@@ -193,34 +193,41 @@ function farbleCanvasMapping(imageData, threshold) {
 		}
 	}
 
+
 	if (colorMap.size > threshold) {
-		// iterate over the data and slightly change the colours,
-		// but each colour will be mapped to the same fake colour
-		for (let [colorKey, _] of colorMap) {
-			let [r, g, b] = colorKey.split('-');
+		if (variant === 1) {
+			farbleCanvasDataBrave(imageData, 1);
+		} else if (variant === 2) {
+			// should be faster than the previous one, with bigger range
+			farbleCanvasDataFPRandom(imageData, false, 6, 13);
+		} else {
+			// iterate over the data and slightly change the colours,
+			// but each colour will be mapped to the same fake colour
+			for (let [colorKey, _] of colorMap) {
+				let [r, g, b] = colorKey.split('-');
 
-			let fakeR = r;
-			let fakeG = g;
-			let fakeB = b;
+				let fakeR = r;
+				let fakeG = g;
+				let fakeB = b;
 
-			if (Math.random() < 0.5) {
-				fakeR ^= 1;
-			}
-			if (Math.random() < 0.5) {
-				fakeG ^= 1;
-			}
-			if (Math.random() < 0.5) {
-				fakeB ^= 1;
-			}
+				if (Math.random() < 0.5) {
+					fakeR ^= 1;
+				}
+				if (Math.random() < 0.5) {
+					fakeG ^= 1;
+				}
+				if (Math.random() < 0.5) {
+					fakeB ^= 1;
+				}
 
-			for (let i = 0; i < len; i += 4) {
-				if (data[i] == r && data[i + 1] == g && data[i + 2] == b) {
-					data[i] = fakeR;
-					data[i + 1] = fakeG;
-					data[i + 2] = fakeB;
+				for (let i = 0; i < len; i += 4) {
+					if (data[i] == r && data[i + 1] == g && data[i + 2] == b) {
+						data[i] = fakeR;
+						data[i + 1] = fakeG;
+						data[i + 2] = fakeB;
+					}
 				}
 			}
 		}
-
 	}
 }

@@ -273,11 +273,20 @@
 								case 31:
 									farbleCanvasMapping(imageData, 100000);
 									break;
-								case 31:
+								case 32:
 									farbleCanvasMapping(imageData, 1000000);
 									break;
-								case 31:
+								case 33:
 									farbleCanvasMapping(imageData, 10000000);
+									break;
+								case 34:
+									farbleCanvasMapping(imageData, 1000, 1);
+									break;
+								case 35:
+									farbleCanvasDataFPRandom(imageData, 1000, false, 6, 13);
+									break;
+								case 36:
+									farbleCanvasMapping(imageData, 1000, 2);
 									break;
 								default:
 									console.error("fell to default case in farblePixelsJS switch");
