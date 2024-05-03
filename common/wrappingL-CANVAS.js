@@ -131,10 +131,10 @@ function farbleCanvasDataPixelSmoothing(imageData, coefficient) {
 
 		let leftValue = 0
 		let rightValue = 0;
-		if (i - 4 + channel > 0) {
+		if (i - 4 >= 0) {
 			leftValue = data[i - 4 + channel];
 		}
-		if (i + 4 + channel < len) {
+		if (i + 4 < len) {
 			rightValue = data[i + 4 + channel];	
 		}
 

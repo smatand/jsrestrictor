@@ -178,13 +178,13 @@ var wrapping_groups = {
 					config: [15],
 				},
 				{
-					short: "50% noise",
-					description: "Use PriVaricator's method to protect against Canvas fingerprinting. But 50 % noise is added to canvas by XORing the RGB channels with themselves.",
+					short: "% noise",
+					description: "Use PriVaricator's method to protect against Canvas fingerprinting. But 25 % noise is added to canvas by XORing the RGB channels with themselves.",
 					config: [16],
 				},				
 				{
 					short: "75% noise",
-					description: "Use PriVaricator's method to protect against Canvas fingerprinting. But 75 % noise is added to canvas by XORing the RGB channels with themselves.",
+					description: "Use PriVaricator's method to protect against Canvas fingerprinting. But 50 % noise is added to canvas by XORing the RGB channels with themselves.",
 					config: [17],
 				},
 				{
@@ -956,8 +956,8 @@ const L_CANVAS_DEFAULT_6BITS = "CanvasDefault6Bits";
 const L_CANVAS_DEFAULT_7BITS = "CanvasDefault7Bits";
 const L_CANVAS_PRIVARICATOR_15 = "CanvasMethod15";
 const L_CANVAS_PRIVARICATOR_20 = "CanvasMethod20";
+const L_CANVAS_PRIVARICATOR_25 = "CanvasMethod25";
 const L_CANVAS_PRIVARICATOR_50 = "CanvasMethod50";
-const L_CANVAS_PRIVARICATOR_75 = "CanvasMethod75";
 const L_CANVAS_MAPPING_1 = "CanvasMapping1";
 const L_CANVAS_MAPPING_2 = "CanvasMapping2";
 const L_CANVAS_MAPPING_3 = "CanvasMapping3";
@@ -1213,17 +1213,17 @@ var level_canvas_20 = {
 
 var level_canvas_50 = {
 	"builtin": true,
-	"level_id": L_CANVAS_PRIVARICATOR_50,
-	"level_text": "Canvas protection - 50% noise",
-	"level_description": "Farble the Canvas API readings by adding the 50% noise ",
+	"level_id": L_CANVAS_PRIVARICATOR_25,
+	"level_text": "Canvas protection - 25% noise",
+	"level_description": "Farble the Canvas API readings by adding the 25% noise ",
 	"htmlcanvaselement": 17,
 }
 
 var level_canvas_75 = {
 	"builtin": true,
-	"level_id": L_CANVAS_PRIVARICATOR_75,
-	"level_text": "Canvas protection - 75% noise",
-	"level_description": "Farble the Canvas API readings by adding the 75% noise ",
+	"level_id": L_CANVAS_PRIVARICATOR_50,
+	"level_text": "Canvas protection - 50% noise",
+	"level_description": "Farble the Canvas API readings by adding the 50% noise ",
 	"htmlcanvaselement": 18,
 }
 

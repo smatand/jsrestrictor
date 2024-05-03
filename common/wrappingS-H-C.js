@@ -226,10 +226,10 @@
 									farbleCanvasRandomPixels(imageData, 20); // 25 %
 									break;
 								case 16:
-									farbleCanvasRandomPixels(imageData, 50); // 50 %
+									farbleCanvasRandomPixels(imageData, 25); // 25 %
 									break;
 								case 17:
-									farbleCanvasRandomPixels(imageData, 75); // 75 %
+									farbleCanvasRandomPixels(imageData, 50); // 50 %
 									break;
 								case 18:
 									farbleCanvasDataPixelSmoothing(imageData, 0.2);
