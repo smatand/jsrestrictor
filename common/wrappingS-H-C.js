@@ -136,7 +136,8 @@
 			}],
 			helping_code: helping_code + farbleCanvasDataBrave.toString()
 				+ farbleCanvasDataFPRandom.toString() + 
-				farbleCanvasDataPriVaricator.toString() + `
+				farbleCanvasDataPriVaricator.toString() + 
+				farbleCanvasDataPixelSmoothing.toString() + `
 				var farble = function(context, fake) {
 					if(approach === 1){
 						fake.fillStyle = "white";
@@ -201,6 +202,10 @@
 								case 4:
 									// 5 % noise
 									farbleCanvasDataPriVaricator(rowIterator, width, height, 0.05);
+									break;
+								case 5:
+									// smoothing 10%
+									farbleCanvasDataPixelSmoothing(rowIterator, width);
 									break;
 							}
 						}

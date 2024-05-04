@@ -117,11 +117,15 @@ var wrapping_groups = {
 					description: "FPRandom's method to protect against Canvas fingerprinting, RandomMode is on",
 					config: [3],
 				},
-	
 				{
 					short: "5 % Noise",
 					description: "5 % Noise, PriVaricator",
 					config: [4],
+				},
+				{
+					short: "Pixel smoothing 10 %",
+					description: "Pixel Smoothing 10 %",
+					config: [5],
 				}
 			],
 			wrappers: [
@@ -930,6 +934,14 @@ var level_5_noise = {
 	"htmlcanvaselement": 5,
 }
 
+var level_smoothing = {
+	"builtin": true,
+	"level_id": "canvas_smoothing",
+	"level_text": "Canvas proteciton - smoothing 10 %",
+	"level_description": "Coefficient = 0.1, smoothing",
+	"htmlcanvaselement": 6,
+}
+
 var modify_builtin_levels = modify_builtin_levels || (() => null); // Give other scripts the possibility to modify builtin levels
 modify_builtin_levels();
 
@@ -945,7 +957,8 @@ function init_levels() {
 		[level_experimental.level_id]: level_experimental,
 		[level_canvas_fprandom_off.level_id]: level_canvas_fprandom_off,
 		[level_canvas_fprandom_on.level_id]: level_canvas_fprandom_on,
-		[level_5_noise.level_id]: level_5_noise
+		[level_5_noise.level_id]: level_5_noise,
+		[level_smoothing.level_id]: level_smoothing
 	};
 	default_level = Object.create(levels[L2]);
 	default_level.level_text = "Default";

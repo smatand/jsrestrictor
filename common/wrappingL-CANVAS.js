@@ -162,3 +162,47 @@ function farbleCanvasDataPriVaricator(rowIterator, width, height, percentage) {
 		}
 	}
 }
+
+/**Smoothes the pixel data on the canvas
+ * 
+ * Uses Math.random() to choose the RGB channel of pixel
+ * Then the channel will inherit the neighboring pixels' cahnnel values by following formula:
+ * pixel[Math.random() * 3] += 0.05 * (rightValue - leftValue)
+ * 
+ * This method applies for every pixel on the canvas
+ */
+function farbleCanvasDataPixelSmoothing(rowIterator, width) {
+	let crc = new CRC16();
+
+	for (row of rowIterator()) {
+		crc.next(row);
+	}
+
+	var thiscanvas_prng = alea(domainHash, "CanvasFarbling", crc.crc);
+
+	var data_count = width * 4;
+
+	for (row of rowIterator()) {
+		for (let i = 0; i < data_count; i += 4) {
+			// choose the random channel which will inherit the values of neighboring pixel's channel
+			const channel = ~~(thiscanvas_prng() * 3); 
+
+			let leftValue = 0, rightValue = 0;
+			if (i - 4 + channel < 0) {
+				leftValue = row[i - 4 + channel];
+			}
+			if (i + 4 + channel <= data_count) {
+				rightValue = row[i + 4 + channel];	
+			}
+
+			row[i + channel] += 0.05 * (rightValue - leftValue);
+
+			// ensure it's 8-byte
+			if (row[i + channel] < 0) {
+				row[i + channel] = 0;
+			} else if (row[i + channel] > 255) {
+				row[i + channel] = 255;
+			}
+		}
+	} // end of outer for loop
+}
