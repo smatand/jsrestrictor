@@ -68,3 +68,61 @@ function farbleCanvasDataBrave(rowIterator, width) {
 	}
 	console.debug("Timing farbleCanvasDataBrave Farbled", Date.now() - start_time);
 }
+
+/**Farble image data, inspired by FPRandom 
+ * 
+ * https://github.com/plaperdr/fprandom
+ * 
+ * Important note: as the original implementation is in C++, we cannot use it directly using JShelter,
+ * 				   thus we try to implement the algorithm on our own with JS
+ */
+function farbleCanvasDataFPRandom(rowIterator, width, randomMode, c1=3, c2=7) {
+	console.debug(`Called farbleCanvasDataFPRandom() with randomMode: ${randomMode}`);
+
+	let crc = new CRC16();
+
+	for (row of rowIterator()) {
+		crc.next(row);
+	}
+
+	var thiscanvas_prng = alea(domainHash, "CanvasFarbling", crc.crc);
+
+	var data_count = width * 4;
+
+	let MIN_HEX_CODE = 0;
+	let MAX_HEX_CODE = 255;
+	let randomR, randomG, randomB;
+
+	function getRandomRGB() {
+		randomR = ~~(thiscanvas_prng() * c2);
+		randomG = ~~(thiscanvas_prng() * c2);
+		randomB = ~~(thiscanvas_prng() * c2);
+	}
+
+	function getModifiedColor(color, randomNum) {
+		let newColor = color - c1 + randomNum;
+		if (MIN_HEX_CODE > newColor) {
+			newColor = 0;
+		}
+		if (newColor > MAX_HEX_CODE) {
+			newColor = 255;
+		}
+
+		return newColor;
+	}
+
+	getRandomRGB(); // initialize random RGB values
+
+	for (row of rowIterator()) {
+		for (let i = 0; i < data_count; i += 4) {
+			row[i] = getModifiedColor(row[i], randomR); // R
+			row[i + 1] = getModifiedColor(row[i + 1], randomG); // G
+			row[i + 2] = getModifiedColor(row[i + 2], randomB); // B
+
+			if (randomMode) {
+				// in FPRandom, if random mode is selected, it is supposed to reinitialize values each iteration 	
+				getRandomRGB();
+			}
+		}
+	} // end of for loop
+}

@@ -107,6 +107,17 @@ var wrapping_groups = {
 					description: browser.i18n.getMessage("jssgroupLocallyRenderedImagesStrictDescription"),
 					config: [1],
 				},
+				{
+					short: "FPRandom off",
+					description: "FPRandom's method to protect against Canvas fingerprinting. RandomMode is off",
+					config: [2],
+				},
+				{
+					short: "FPRandom on",
+					description: "FPRandom's method to protect against Canvas fingerprinting, RandomMode is on",
+					config: [3],
+				},
+	
 			],
 			wrappers: [
 				// H-C
@@ -888,6 +899,24 @@ var level_experimental = {
 	"nfc": 1,
 };
 
+// FPRandom
+var level_canvas_fprandom_off = {
+	"builtin": true,
+	"level_id": "FPRandom_OFF",
+	"level_text": "Canvas protection - FPRandom off",
+	"level_description": "Farble the Canvas API readings by modifying each RGB channel of every pixel",
+	"htmlcanvaselement": 3,
+}
+
+// FPRandom with random mode ON
+var level_canvas_fprandom_on = {
+	"builtin": true,
+	"level_id": "FPRandom_ON",
+	"level_text": "Canvas protection - FPRandom on",
+	"level_description": "Farble the Canvas API readings by modifying each RGB channel of every pixel, each time reinitializing the random values",
+	"htmlcanvaselement": 4,
+}
+
 var modify_builtin_levels = modify_builtin_levels || (() => null); // Give other scripts the possibility to modify builtin levels
 modify_builtin_levels();
 
@@ -900,7 +929,9 @@ function init_levels() {
 		[level_1.level_id]: level_1,
 		[level_2.level_id]: level_2,
 		[level_3.level_id]: level_3,
-		[level_experimental.level_id]: level_experimental
+		[level_experimental.level_id]: level_experimental,
+		[level_canvas_fprandom_off.level_id]: level_canvas_fprandom_off,
+		[level_canvas_fprandom_on.level_id]: level_canvas_fprandom_on
 	};
 	default_level = Object.create(levels[L2]);
 	default_level.level_text = "Default";
