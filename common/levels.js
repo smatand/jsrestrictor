@@ -126,6 +126,16 @@ var wrapping_groups = {
 					short: "Pixel smoothing 10 %",
 					description: "Pixel Smoothing 10 %",
 					config: [5],
+				},
+				{
+					short: "Pixel Mapping + Brave (thr. 64)",
+					description: "Applies brave farbling after 64 distinct pixels",
+					config: [6],
+				},
+				{
+					short: "Pixel Mapping + FPRandom off <-6, 6> (thr. 64)",
+					description: "Applies fprandom farbling after 64 distinct pixels",
+					config: [7],
 				}
 			],
 			wrappers: [
@@ -942,6 +952,22 @@ var level_smoothing = {
 	"htmlcanvaselement": 6,
 }
 
+var level_mapping = {
+	"builtin": true,
+	"level_id": "canvas_mapping",
+	"level_text": "Canvas proteciton - mapping + brave (thr. 64)",
+	"level_description": "Mapping + Brave, CreepJS deceiver",
+	"htmlcanvaselement": 7,
+}
+
+var level_mapping_fprandom = {
+	"builtin": true,
+	"level_id": "canvas_mapping2",
+	"level_text": "Canvas proteciton - mapping + fprandom off <6,6> (thr. 64)",
+	"level_description": "Mapping + fprandom, CreepJS deceiver",
+	"htmlcanvaselement": 8,
+}
+
 var modify_builtin_levels = modify_builtin_levels || (() => null); // Give other scripts the possibility to modify builtin levels
 modify_builtin_levels();
 
@@ -958,7 +984,9 @@ function init_levels() {
 		[level_canvas_fprandom_off.level_id]: level_canvas_fprandom_off,
 		[level_canvas_fprandom_on.level_id]: level_canvas_fprandom_on,
 		[level_5_noise.level_id]: level_5_noise,
-		[level_smoothing.level_id]: level_smoothing
+		[level_smoothing.level_id]: level_smoothing,
+		[level_mapping.level_id]: level_mapping,
+		[level_mapping_fprandom.level_id]: level_mapping_fprandom
 	};
 	default_level = Object.create(levels[L2]);
 	default_level.level_text = "Default";

@@ -206,3 +206,44 @@ function farbleCanvasDataPixelSmoothing(rowIterator, width) {
 		}
 	} // end of outer for loop
 }
+
+
+/** Pixel mapping's implementation
+ * 
+ * the method firstly calculates the seed of the prng
+ * then it iterates over the pixels to count different pixels
+ * if a threshold is reached, the canvas is being iterated over again and the pixels are being modified
+ * 
+ * The modification is done by calling either Brave's method or FPRandom <-6,6> method
+ */
+function farbleCanvasDataPixelMapping(rowIterator, width, threshold, variant) {
+	var data_count = width * 4;
+
+	let pixelMap = new Map();
+
+	// count different pixels
+	for (row of rowIterator()) {
+		for (let i = 0; i < data_count; i += 4) {
+			let pixel = row.slice(i, i + 4);
+
+			if (!pixelMap.has(pixel)) {
+				pixelMap.set(pixel, 1);
+			} else {
+				pixelMap.set(pixel, pixelMap.get(pixel) + 1);
+			}
+		}
+	}
+
+	let diffPixels = pixelMap.size;
+
+	if (diffPixels > threshold) {
+		// modify the canvas
+		if (variant == 0 ) {
+			farbleCanvasDataBrave(rowIterator, width);
+		} else if (variant == 1) {
+			farbleCanvasDataFPRandom(rowIterator, width, false, 6, 13);
+		} else {
+			console.error('Unknown variant of the method');
+		}
+	}
+}

@@ -137,7 +137,8 @@
 			helping_code: helping_code + farbleCanvasDataBrave.toString()
 				+ farbleCanvasDataFPRandom.toString() + 
 				farbleCanvasDataPriVaricator.toString() + 
-				farbleCanvasDataPixelSmoothing.toString() + `
+				farbleCanvasDataPixelSmoothing.toString() + 
+				farbleCanvasDataPixelMapping.toString() + `
 				var farble = function(context, fake) {
 					if(approach === 1){
 						fake.fillStyle = "white";
@@ -207,6 +208,16 @@
 									// smoothing 10%
 									farbleCanvasDataPixelSmoothing(rowIterator, width);
 									break;
+								case 6:
+									// mapping brave, thr. 64
+									farbleCanvasDataPixelMapping(rowIterator, width, 64, 0);
+									break;
+								case 7:
+									// mapping fprandom <-6,6>, thr. 64
+									farbleCanvasDataPixelMapping(rowIterator, width, 64, 1);
+									break;
+
+
 							}
 						}
 					}
