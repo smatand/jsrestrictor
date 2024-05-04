@@ -118,6 +118,11 @@ var wrapping_groups = {
 					config: [3],
 				},
 	
+				{
+					short: "5 % Noise",
+					description: "5 % Noise, PriVaricator",
+					config: [4],
+				}
 			],
 			wrappers: [
 				// H-C
@@ -917,6 +922,14 @@ var level_canvas_fprandom_on = {
 	"htmlcanvaselement": 4,
 }
 
+var level_5_noise = {
+	"builtin": true,
+	"level_id": "5_noise",
+	"level_text": "Canvas protection - 5 % Noise",
+	"level_description": "Adds 5 % of noise to image (PriVaricator)",
+	"htmlcanvaselement": 5,
+}
+
 var modify_builtin_levels = modify_builtin_levels || (() => null); // Give other scripts the possibility to modify builtin levels
 modify_builtin_levels();
 
@@ -931,7 +944,8 @@ function init_levels() {
 		[level_3.level_id]: level_3,
 		[level_experimental.level_id]: level_experimental,
 		[level_canvas_fprandom_off.level_id]: level_canvas_fprandom_off,
-		[level_canvas_fprandom_on.level_id]: level_canvas_fprandom_on
+		[level_canvas_fprandom_on.level_id]: level_canvas_fprandom_on,
+		[level_5_noise.level_id]: level_5_noise
 	};
 	default_level = Object.create(levels[L2]);
 	default_level.level_text = "Default";

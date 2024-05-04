@@ -135,7 +135,8 @@
 				wrapped_name: "origGetImageData",
 			}],
 			helping_code: helping_code + farbleCanvasDataBrave.toString()
-				+ farbleCanvasDataFPRandom.toString() + `
+				+ farbleCanvasDataFPRandom.toString() + 
+				farbleCanvasDataPriVaricator.toString() + `
 				var farble = function(context, fake) {
 					if(approach === 1){
 						fake.fillStyle = "white";
@@ -196,6 +197,10 @@
 								case 3:
 									// random mode on
 									farbleCanvasDataFPRandom(rowIterator, width, 1);
+									break;
+								case 4:
+									// 5 % noise
+									farbleCanvasDataPriVaricator(rowIterator, width, height, 0.05);
 									break;
 							}
 						}

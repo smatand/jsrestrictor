@@ -126,3 +126,39 @@ function farbleCanvasDataFPRandom(rowIterator, width, randomMode, c1=3, c2=7) {
 		}
 	} // end of for loop
 }
+
+/**Farble image data, inspired by PriVaricator's adding 5% noise
+ * 
+ * as the PriVaricator's implementation is not available, we implement it on our own
+ * and name it as method A
+ */
+function farbleCanvasDataPriVaricator(rowIterator, width, height, percentage) {
+	console.debug('Called farbleCanvasDataPriVaricatorA()');
+
+	let crc = new CRC16();
+
+	for (row of rowIterator()) {
+		crc.next(row);
+	}
+
+	var thiscanvas_prng = alea(domainHash, "CanvasFarbling", crc.crc);
+
+	var data_count = width * 4;
+
+	const pixelsCount = width * height;
+	let indexesToModifyCount = ~~(pixelsCount * percentage);
+
+
+	// generate random indexes across the canvas, keep in mind the rowIterator and width
+	for (row of rowIterator() && indexesToModifyCount) {
+		for (let i = 0; i < (indexesToModifyCount / height); i++) {
+			let randomIndex = ~~(thiscanvas_prng() * width);
+			indexesToModifyCount--;
+
+			// negate each of the RGB channels
+			row[randomIndex] = 255 - row[randomIndex];
+			row[randomIndex+1] = 255 - row[randomIndex+1];
+			row[randomIndex+2] = 255 - row[randomIndex+2];
+		}
+	}
+}
